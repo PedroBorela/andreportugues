@@ -24,7 +24,7 @@ npm run preview   # serve o build de produção localmente
 
 ```
 src/
-├── config/site.ts           # dados do candidato, links, redes sociais, cookies, pop-up, newsletter
+├── config/site.ts           # dados do candidato, links, redes sociais e pop-up
 ├── config/copy.ts           # textos das seções (títulos, chamadas, descrições)
 ├── data/                    # conteúdo das seções
 │   ├── news.ts              #   notícias (e quais aparecem na home)
@@ -38,9 +38,9 @@ src/
 ├── components/
 │   ├── layout/              # SiteNav, Footer
 │   ├── sections/            # uma seção da página por arquivo
-│   ├── overlays/            # modal de conteúdo, cookies, pop-up, botões flutuantes, acessibilidade
+│   ├── overlays/            # modal de conteúdo, pop-up, botões flutuantes, acessibilidade
 │   └── ui/                  # Logo, Modal, CloseButton, ShareButtons, SectionHeading, SocialLinks
-├── lib/                     # tipos e utilitários do navegador (modais, compartilhamento, consentimento, analytics, VLibras)
+├── lib/                     # tipos e utilitários do navegador (modais, compartilhamento, VLibras)
 ├── layouts/BaseLayout.astro # <head>, SEO e Open Graph
 ├── scripts/reveal.ts        # animação de entrada das seções
 ├── styles/                  # CSS por área + Tailwind
@@ -89,20 +89,14 @@ Central de materiais, figurinhas, player de jingles e newsletter foram removidos
 Itens marcados com `CONFIRMAR` no código (detalhes em [docs/briefing/BRIEFING.md](docs/briefing/BRIEFING.md), seção 9):
 
 - Link da comunidade de WhatsApp, YouTube e TikTok
-- ID do Google Analytics da campanha
 - Domínio oficial (`site` em `astro.config.mjs`)
 - Fotos de campanha em alta resolução
 - Propostas de Segurança e de Saúde e Educação (textos inferidos)
 - Estado civil: não foi usado, porque a bio do Instagram e o registro do TSE divergem
 - As imagens atuais vieram do Instagram em 640px e servem só como referência
 
-## Configuração
-
-O ID do Google Analytics fica em `cookieConsent.analyticsId` (`src/config/site.ts`) e só é carregado depois que o visitante aceita os cookies.
-
 ## Recursos
 
-- Aviso de cookies/LGPD com carregamento condicional do Google Analytics
 - Painel de acessibilidade (tamanho de texto, contraste, espaçamento, modo leitura, cursor ampliado) com preferências salvas no navegador
 - Integração com o VLibras, carregado sob demanda
 - Modais nativos (`<dialog>`) com foco e tecla Esc

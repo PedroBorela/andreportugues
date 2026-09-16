@@ -77,15 +77,6 @@ export const navigation = [
 /** Botão destacado do menu. */
 export const navHighlight = { label: 'Vote 1080', href: '#chapa' } as const;
 
-export const cookieConsent = {
-  enabled: true,
-  title: 'Aviso de cookies e LGPD',
-  message:
-    'Usamos cookies essenciais e armazenamento local para preferências do site. Com sua autorização, também usamos ferramentas de análise para medir audiência e melhorar a experiência.',
-  /** CONFIRMAR: ID do Google Analytics da campanha (ex.: G-XXXXXXX). Vazio = nenhum analytics é carregado. */
-  analyticsId: '',
-} as const;
-
 export const entryPopup = {
   enabled: true,
   image: '/uploads/candidatura-deferida.webp',

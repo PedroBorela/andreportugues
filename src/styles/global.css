@@ -3,7 +3,6 @@
 @import './components.css';
 @import './modals.css';
 @import './videos.css';
-@import './widgets.css';
 
 @tailwind base;
 @tailwind components;

@@ -69,11 +69,6 @@
     margin-inline: auto;
     background: #fff;
   }
-
-  body.accessibility-reading-mode :is(#inicio, #case, .video-showcase-section) {
-    background: #fff !important;
-    color: var(--ink) !important;
-  }
 }
 
 @layer components {

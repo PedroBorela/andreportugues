@@ -30,7 +30,6 @@ import Modal from '../ui/Modal.astro';
 }
 
 <script>
-  import { whenConsentResolved } from '../../lib/consent';
   import { getModal, openModal } from '../../lib/modal';
 
   const STORAGE_KEY = 'site-entry-popup-seen-v1';
@@ -46,16 +45,14 @@ import Modal from '../ui/Modal.astro';
 
   if (popup && !alreadySeen()) {
     window.setTimeout(() => {
-      whenConsentResolved(() => {
-        // Não interrompe o visitante se outro modal já estiver aberto.
-        if (document.querySelector('dialog.modal[open]')) return;
-        openModal(popup);
-        try {
-          window.sessionStorage.setItem(STORAGE_KEY, '1');
-        } catch {
-          // Sem sessionStorage o pop-up apenas voltará a aparecer.
-        }
-      });
+      // Não interrompe o visitante se outro modal já estiver aberto.
+      if (document.querySelector('dialog.modal[open]')) return;
+      openModal(popup);
+      try {
+        window.sessionStorage.setItem(STORAGE_KEY, '1');
+      } catch {
+        // Sem sessionStorage o pop-up apenas voltará a aparecer.
+      }
     }, 700);
   }
 </script>
