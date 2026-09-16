@@ -50,13 +50,6 @@ export const videosCopy = {
   subtitle: 'Acompanhe os encontros, as caravanas e os momentos da campanha pelas cidades do Rio.',
 } as const;
 
-export const materialsCopy = {
-  kicker: 'CENTRAL DE MATERIAIS',
-  title: 'Baixe e compartilhe',
-  subtitle: 'Escolha o material para divulgar a campanha na sua cidade, nas redes e nos grupos de WhatsApp.',
-  unavailableLabel: 'Disponível em breve',
-} as const;
-
 export const connectCopy = {
   kicker: 'NAS RUAS',
   title: 'Galeria de fotos',
@@ -75,15 +68,6 @@ export const participateCopy = {
   kicker: 'MOBILIZAÇÃO OFICIAL',
   title: 'Entre para a',
   titleHighlight: 'campanha 1080',
-  text: 'Receba agenda, encontros e propostas direto no seu celular. Nossa força também está nas ruas — e no seu grupo.',
+  text: 'Acompanhe a agenda, os encontros e as propostas de perto. Nossa força também está nas ruas — e nas redes.',
   support: 'Rio de Janeiro • Deputado Federal',
-} as const;
-
-export const newsletterCopy = {
-  kicker: 'EM PRIMEIRA MÃO',
-  title: 'Receba a agenda e as novidades da campanha.',
-  text: 'Cadastre seu e-mail para acompanhar os compromissos e as comunicações oficiais.',
-  placeholder: 'Seu melhor e-mail',
-  consent: 'Autorize o recebimento de comunicações oficiais da campanha.',
-  cta: 'QUERO RECEBER',
 } as const;

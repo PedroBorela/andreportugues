@@ -4,45 +4,40 @@ import Logo from '../ui/Logo.astro';
 import SocialLinks from '../ui/SocialLinks.astro';
 ---
 
-<footer id="footer" class="relative overflow-hidden border-t-[10px] border-brand-yellow bg-brand-navy pb-8 pt-16 text-white">
-  <div
-    class="pointer-events-none absolute inset-0 opacity-20"
-    style="background-image: repeating-linear-gradient(-12deg, transparent 0, transparent 28px, rgb(255 255 255 / 0.12) 29px, transparent 30px)"
-  >
-  </div>
-  <div class="relative mx-auto max-w-7xl px-6 md:px-8">
+<footer id="footer" class="border-t-[10px] border-brand-yellow bg-brand-navy pb-8 pt-16 text-white">
+  <div class="mx-auto max-w-7xl px-6 md:px-8">
     <div class="grid gap-12 md:grid-cols-[.9fr_1.1fr_1fr] md:gap-16">
       <div>
         <Logo size="lg" />
-        <p class="mt-6 flex flex-wrap gap-x-3 gap-y-1 text-xs font-bold tracking-wider text-brand-yellow">
+        <p class="mt-6 flex flex-wrap gap-x-3 gap-y-1 text-sm font-bold tracking-wide text-brand-yellow">
           {hashtags.map((tag) => <span>{tag}</span>)}
         </p>
       </div>
 
       <div>
-        <p class="mb-5 text-xs font-extrabold uppercase tracking-eyebrow text-brand-yellow">Sobre o site</p>
-        <p class="max-w-md text-sm leading-relaxed text-white/75">{legal.about}</p>
-        <dl class="mt-6 space-y-4 text-sm text-white/75">
+        <p class="mb-5 text-sm font-extrabold uppercase tracking-eyebrow text-brand-yellow">Sobre o site</p>
+        <p class="max-w-md text-base leading-relaxed text-white">{legal.about}</p>
+        <dl class="mt-6 space-y-4 text-base text-white">
           <div>
-            <dt class="mb-1 font-extrabold text-white">CNPJ do candidato</dt>
+            <dt class="mb-1 text-sm font-extrabold uppercase tracking-wide text-brand-yellow">CNPJ do candidato</dt>
             <dd>{legal.cnpj}</dd>
           </div>
           <div>
-            <dt class="mb-1 font-extrabold text-white">Coligação</dt>
+            <dt class="mb-1 text-sm font-extrabold uppercase tracking-wide text-brand-yellow">Coligação</dt>
             <dd class="max-w-sm leading-relaxed">{legal.coalition}</dd>
           </div>
         </dl>
       </div>
 
-      <div class="md:border-l md:border-white/15 md:pl-10">
+      <div class="md:border-l md:border-white/25 md:pl-10">
         <img src={site.partyLogo} alt="Logo do partido Republicanos" loading="lazy" class="h-14 w-auto object-contain" />
-        <p class="mt-5 max-w-sm text-sm leading-relaxed text-white/65">{legal.party}</p>
+        <p class="mt-5 max-w-sm text-base leading-relaxed text-white">{legal.party}</p>
         <SocialLinks variant="footer" class="mt-6" />
       </div>
     </div>
 
-    <div class="mt-12 flex flex-col gap-4 border-t border-white/15 pt-6 text-xs text-white/50 md:flex-row md:items-center md:justify-between">
-      <p>{legal.notice}</p>
+    <div class="mt-12 flex flex-col gap-4 border-t border-white/25 pt-6 text-sm text-white/90 md:flex-row md:items-center md:justify-between">
+      <p class="font-bold">{legal.notice}</p>
       <p>
         © {legal.year} Todos os direitos reservados | {legal.coalition}
         <span class="px-1">|</span>

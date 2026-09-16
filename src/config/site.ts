@@ -25,6 +25,8 @@ export const site = {
   themeColor: '#205DC7',
   favicon: '/favicon.png',
   ogImage: '/uploads/banner-andre-portugues-1080.webp',
+  logo: '/assets/logo-andre-portugues-1080.webp',
+  photo: '/uploads/foto-oficial-andre-portugues.webp',
   partyLogo: '/assets/logo-partido.webp',
 } as const;
 
@@ -69,7 +71,6 @@ export const navigation = [
   { label: 'NOTÍCIAS', href: '#noticias' },
   { label: 'AGENDA', href: '#agenda' },
   { label: 'VÍDEOS', href: '#videos' },
-  { label: 'MATERIAIS', href: '#materiais' },
   { label: 'PARTICIPE', href: '#participe' },
 ] as const;
 
@@ -90,14 +91,6 @@ export const entryPopup = {
   image: '/uploads/candidatura-deferida.webp',
   imageAlt: 'Candidatura deferida: André Português é ficha limpa',
   cta: { label: 'Conheça as propostas', href: '#propostas' },
-} as const;
-
-export const newsletter = {
-  /**
-   * Endpoint que recebe o cadastro (POST com `email` e `consent`).
-   * O site é estático: configure `PUBLIC_NEWSLETTER_ENDPOINT` (ex.: Formspree, Brevo, API própria).
-   */
-  endpoint: import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT ?? '',
 } as const;
 
 /** Link usado nos convites para participar: a comunidade do WhatsApp ou, sem ela, o Instagram oficial. */

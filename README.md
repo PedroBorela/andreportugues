@@ -34,14 +34,11 @@ src/
 │   ├── agenda.ts            #   agenda
 │   ├── videos.ts            #   vídeos
 │   ├── galleries.ts         #   galerias de fotos
-│   ├── materials.ts         #   materiais para download
-│   ├── stickers.ts          #   figurinhas de WhatsApp
-│   ├── instagram.ts         #   publicações do Instagram
-│   └── jingles.ts           #   jingles do player
+│   └── instagram.ts         #   publicações do Instagram
 ├── components/
 │   ├── layout/              # SiteNav, Footer
 │   ├── sections/            # uma seção da página por arquivo
-│   ├── overlays/            # modal de conteúdo, cookies, pop-up, jingles, botões flutuantes, acessibilidade
+│   ├── overlays/            # modal de conteúdo, cookies, pop-up, botões flutuantes, acessibilidade
 │   └── ui/                  # Logo, Modal, CloseButton, ShareButtons, SectionHeading, SocialLinks
 ├── lib/                     # tipos e utilitários do navegador (modais, compartilhamento, consentimento, analytics, VLibras)
 ├── layouts/BaseLayout.astro # <head>, SEO e Open Graph
@@ -49,9 +46,9 @@ src/
 ├── styles/                  # CSS por área + Tailwind
 └── pages/index.astro        # monta a página
 public/
-├── assets/                  # ícones de redes sociais e logos
-└── uploads/                 # imagens de conteúdo (banner, peças da campanha)
-docs/briefing/               # briefing, copy deck (JSON) e imagens originais coletadas
+├── assets/                  # logo oficial, logo do partido e ícones de redes sociais
+└── uploads/                 # foto oficial, banner e peças da campanha
+docs/briefing/               # briefing, copy deck (JSON), imagens coletadas e originais (logo e foto)
 _legacy/                     # página de referência salva (só referência, não é usada no build)
 ```
 
@@ -62,15 +59,13 @@ _legacy/                     # página de referência salva (só referência, n�
 | `Hero` | `#inicio` | Banner da chapa, slogan e contagem regressiva para 04/10 |
 | `Proposals` | `#propostas` | Carrossel com as 6 bandeiras |
 | `CaseStudy` | `#case` | Números e destaques do case Miguel Pereira |
-| `About` | `#quem-e` | Biografia e trajetória |
+| `About` | `#quem-e` | Foto oficial, biografia e trajetória |
 | `News` | `#noticias` | Destaque, "Em pauta" e lista completa |
 | `Agenda` | `#agenda` | Próximos compromissos |
 | `Videos` | `#videos` | Reels do Instagram com player vertical |
-| `Materials` | `#materiais` | Downloads (e figurinhas, quando houver) |
 | `Connect` | `#conecte` | Galeria de fotos e Instagram |
 | `Ticket` | `#chapa` | Chapa: Flávio 22, Crivella 100, André 1080 |
 | `WhatsAppCommunity` | `#participe` | Convite para a comunidade (ou Instagram, sem link do WhatsApp) |
-| `Newsletter` | `#newsletter` | Cadastro de e-mail |
 
 ## Editando o conteúdo
 
@@ -81,12 +76,13 @@ _legacy/                     # página de referência salva (só referência, n�
 - **Imagens novas:** coloque em `public/uploads/` e use o caminho `/uploads/nome-do-arquivo.webp`.
 - **Ícones:** importe de `@lucide/astro` (catálogo em [lucide.dev/icons](https://lucide.dev/icons)), por exemplo `import { ArrowRight } from '@lucide/astro'`.
 
-### Blocos que aparecem sozinhos quando o conteúdo chegar
+### Seções removidas por falta de conteúdo
 
-- **Materiais:** preencha `url` e `fileName` em `src/data/materials.ts`. Enquanto vazios, o card mostra "Disponível em breve".
-- **Figurinhas:** adicione itens em `src/data/stickers.ts`.
-- **Jingles:** adicione itens em `src/data/jingles.ts` para exibir o player flutuante.
-- **WhatsApp:** defina `whatsapp.communityUrl` em `src/config/site.ts`. Isso ativa o botão flutuante e troca os convites do Instagram pelo WhatsApp.
+Central de materiais, figurinhas, player de jingles e newsletter foram removidos nesta branch. Para recuperá-los quando os arquivos (ou o serviço de e-mail) existirem, use a branch `main` como referência: `src/components/sections/Materials.astro`, `src/components/sections/Newsletter.astro` e `src/components/overlays/JinglePlayer.astro`.
+
+### WhatsApp
+
+- Defina `whatsapp.communityUrl` em `src/config/site.ts`. Isso ativa o botão flutuante e troca os convites do Instagram pelo WhatsApp.
 
 ## Pendências antes de publicar
 
@@ -95,18 +91,12 @@ Itens marcados com `CONFIRMAR` no código (detalhes em [docs/briefing/BRIEFING.m
 - Link da comunidade de WhatsApp, YouTube e TikTok
 - ID do Google Analytics da campanha
 - Domínio oficial (`site` em `astro.config.mjs`)
-- Logotipo vetorial, fotos em alta resolução, jingle, kit de impressão e figurinhas
+- Fotos de campanha em alta resolução
 - Propostas de Segurança e de Saúde e Educação (textos inferidos)
 - Estado civil: não foi usado, porque a bio do Instagram e o registro do TSE divergem
 - As imagens atuais vieram do Instagram em 640px e servem só como referência
 
 ## Configuração
-
-Copie `.env.example` para `.env`:
-
-| Variável | Uso |
-|---|---|
-| `PUBLIC_NEWSLETTER_ENDPOINT` | URL que recebe o `POST` do formulário de newsletter (campos `email` e `consent`). Pode ser Formspree, Brevo ou uma API própria. Sem ela, o formulário mostra "cadastro indisponível". |
 
 O ID do Google Analytics fica em `cookieConsent.analyticsId` (`src/config/site.ts`) e só é carregado depois que o visitante aceita os cookies.
 

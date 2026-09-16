@@ -1,9 +1,5 @@
 ---
-/**
- * Assinatura da marca em texto: ANDRÉ PORTUGUÊS em branco + 1080 em amarelo + selo #MEUDEPUTADOÉFEDERAL.
- * CONFIRMAR: substituir pelo logotipo vetorial oficial quando o comitê entregar o arquivo.
- */
-import { candidate } from '../../config/site';
+import { candidate, site } from '../../config/site';
 
 interface Props {
   size?: 'md' | 'lg';
@@ -11,53 +7,12 @@ interface Props {
 }
 
 const { size = 'md', class: className } = Astro.props;
-const [firstName, ...rest] = candidate.name.toUpperCase().split(' ');
 ---
 
-<span class:list={['logo', `logo-${size}`, className]} aria-label={`${candidate.name} ${candidate.number}`}>
-  <span class="logo-name" aria-hidden="true">
-    <span>{firstName}</span>
-    <span>{rest.join(' ')}</span>
-  </span>
-  <span class="logo-number" aria-hidden="true">{candidate.number}</span>
-  <span class="logo-tag" aria-hidden="true">#MEUDEPUTADOÉFEDERAL</span>
-</span>
-
-<style>
-  .logo {
-    display: inline-grid;
-    grid-template-columns: auto auto;
-    align-items: center;
-    column-gap: 0.4em;
-    color: #fff;
-    font-family: theme('fontFamily.display');
-    font-weight: 800;
-    line-height: 0.85;
-    font-size: 1.35rem;
-  }
-
-  .logo-lg {
-    font-size: 2.1rem;
-  }
-
-  .logo-name {
-    display: grid;
-    letter-spacing: 0.01em;
-  }
-
-  .logo-number {
-    color: theme('colors.brand.yellow');
-    font-size: 2.15em;
-    letter-spacing: -0.02em;
-  }
-
-  .logo-tag {
-    grid-column: 1 / -1;
-    margin-top: 0.35em;
-    font-family: theme('fontFamily.sans');
-    font-size: 0.3em;
-    font-weight: 700;
-    letter-spacing: 0.32em;
-    opacity: 0.85;
-  }
-</style>
+<img
+  src={site.logo}
+  alt={`${candidate.name} ${candidate.number} — ${candidate.office}`}
+  width="1200"
+  height="229"
+  class:list={['block w-auto', size === 'lg' ? 'h-14 md:h-16' : 'h-9 md:h-11', className]}
+/>

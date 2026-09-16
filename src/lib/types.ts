@@ -69,30 +69,9 @@ export interface Video {
   shareUrl: string;
 }
 
-export interface Material {
-  title: string;
-  description: string;
-  label: string;
-  /** Vazio enquanto o comitê não entregar o arquivo: o card mostra "disponível em breve". */
-  url: string;
-  fileName: string;
-}
-
-export interface Sticker {
-  id: number;
-  title: string;
-  image: string;
-}
-
 export interface InstagramPost {
   url: string;
   image: string;
-}
-
-export interface Jingle {
-  title: string;
-  subtitle: string;
-  url: string;
 }
 
 /** Conteúdo exibido no modal de detalhes (matérias e propostas). */

@@ -189,64 +189,6 @@
     object-fit: cover;
   }
 
-  /* ---------- Figurinhas ---------- */
-  .sticker-modal .modal-panel {
-    border: 1px solid rgb(255 255 255 / 0.2);
-    background: var(--blue);
-    color: #fff;
-  }
-
-  .sticker-modal-grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 14px;
-  }
-
-  .sticker-modal-item {
-    display: grid;
-    min-width: 0;
-    gap: 8px;
-    padding: 8px;
-    border: 1px solid rgb(255 255 255 / 0.22);
-    border-radius: 12px;
-    background: rgb(255 255 255 / 0.06);
-    color: #fff;
-    text-align: center;
-  }
-
-  .sticker-modal-item img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: contain;
-  }
-
-  .sticker-modal-item span {
-    overflow: hidden;
-    font-size: 11px;
-    font-weight: 700;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .sticker-modal-item:hover,
-  .sticker-modal-item:focus-visible {
-    border-color: var(--yellow);
-    background: rgb(251 204 13 / 0.12);
-  }
-
-  .sticker-modal .modal-close {
-    border-color: rgb(255 255 255 / 0.45);
-    background: transparent;
-  }
-
-  .sticker-modal .modal-close:hover,
-  .sticker-modal .modal-close:focus-visible {
-    border-color: var(--yellow);
-    background: var(--yellow);
-    color: var(--blue);
-  }
-
   /* ---------- Pop-up de entrada ---------- */
   .entry-popup {
     --modal-width: 900px;
@@ -310,10 +252,6 @@
 
     .gallery-viewer {
       min-height: 260px;
-    }
-
-    .sticker-modal-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .entry-popup-image {

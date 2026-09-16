@@ -24,9 +24,9 @@ const links = variant === 'footer' ? [...social.filter((s) => s.network === 'ins
           target="_blank"
           rel="noopener noreferrer"
           aria-label={item.label}
-          class="flex h-9 w-9 items-center justify-center rounded border border-white/30 transition hover:border-brand-yellow hover:bg-brand-yellow"
+          class="group flex h-10 w-10 items-center justify-center rounded border border-white/60 transition hover:border-brand-yellow hover:bg-brand-yellow"
         >
-          <img src={item.icon} alt="" width="16" height="16" class="h-4 w-4 brightness-0 invert" />
+          <img src={item.icon} alt="" width="16" height="16" class="h-5 w-5 brightness-0 invert group-hover:invert-0" />
         </a>
       ),
     )
