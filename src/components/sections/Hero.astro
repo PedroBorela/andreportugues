@@ -1,0 +1,48 @@
+---
+import { ArrowRight, ArrowUpRight } from '@lucide/astro';
+import { hero } from '../../config/site';
+---
+
+<header
+  id="inicio"
+  class="hero-bg clip-path-diagonal relative overflow-hidden pb-32 pt-16 text-white md:pt-24"
+  style={`--hero-image: url('${hero.background}')`}
+>
+  <div class="pointer-events-none absolute -left-24 bottom-0 h-56 w-56 rounded-full bg-brand-green/30 blur-3xl"></div>
+  <div class="mx-auto grid max-w-7xl items-center gap-12 px-6 md:grid-cols-[1.02fr_.98fr] md:px-8">
+    <div class="reveal relative z-10">
+      <p class="mb-5 flex items-center gap-3 text-sm font-extrabold uppercase tracking-eyebrow text-brand-yellow">
+        <span class="inline-block h-1 w-8 bg-brand-yellow"></span>
+        {hero.eyebrow}
+      </p>
+      <h1 class="mb-5 text-5xl font-extrabold leading-[1.04] md:text-7xl">{hero.headline}</h1>
+      <p class="mb-8 max-w-xl text-lg leading-relaxed text-white/80 md:text-xl">{hero.subheadline}</p>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <a href={hero.primaryCta.href} class="btn-primary inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 font-extrabold">
+          {hero.primaryCta.label}
+          <ArrowRight size={18} stroke-width={2.5} />
+        </a>
+        <a
+          href={hero.secondaryCta.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/70 px-7 py-3 font-extrabold transition hover:border-white hover:bg-white/10"
+        >
+          {hero.secondaryCta.label}
+          <ArrowUpRight size={18} stroke-width={2.5} />
+        </a>
+      </div>
+    </div>
+
+    <div class="reveal relative flex justify-center md:justify-end">
+      <div class="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-brand-yellow/20 blur-3xl md:h-96 md:w-96"></div>
+      <div class="absolute bottom-4 right-8 z-0 h-40 w-40 rounded-full border-[18px] border-brand-green/50 md:right-16"></div>
+      <img
+        class="hero-photo relative z-10 max-h-[610px] w-auto object-contain object-top"
+        src={hero.photo}
+        alt={hero.photoAlt}
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+</header>

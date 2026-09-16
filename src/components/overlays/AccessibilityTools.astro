@@ -1,0 +1,211 @@
+---
+import {
+  AArrowDown,
+  AArrowUp,
+  Accessibility,
+  BookOpen,
+  CirclePause,
+  Contrast,
+  Hand,
+  Link,
+  MousePointer2,
+  MoveHorizontal,
+  MoveVertical,
+  Palette,
+  RotateCcw,
+  SunMoon,
+  Type,
+} from '@lucide/astro';
+import CloseButton from '../ui/CloseButton.astro';
+
+const textOptions = [
+  { toggle: 'readable-font', Icon: Type, label: 'Texto mais legível' },
+  { toggle: 'letter-spacing', Icon: MoveHorizontal, label: 'Espaçar letras' },
+  { toggle: 'line-spacing', Icon: MoveVertical, label: 'Espaçar linhas' },
+  { toggle: 'reading-mode', Icon: BookOpen, label: 'Modo leitura' },
+];
+const visionOptions = [
+  { toggle: 'high-contrast', Icon: Contrast, label: 'Alto contraste' },
+  { toggle: 'invert', Icon: SunMoon, label: 'Inverter contraste' },
+  { toggle: 'grayscale', Icon: Palette, label: 'Escala de cinza' },
+  { toggle: 'highlight-links', Icon: Link, label: 'Destacar links' },
+];
+const motionOptions = [
+  { toggle: 'pause-motion', Icon: CirclePause, label: 'Pausar animações' },
+  { toggle: 'large-cursor', Icon: MousePointer2, label: 'Cursor ampliado' },
+];
+---
+
+<div class="accessibility-tools" role="group" aria-label="Recursos de acessibilidade">
+  <button id="vlibras-launcher" class="accessibility-launcher is-vlibras" type="button">
+    <span class="accessibility-launcher-icon"><Hand size={17} stroke-width={2.25} /></span>
+    <span class="accessibility-launcher-label">VLibras</span>
+  </button>
+  <button id="accessibility-launcher" class="accessibility-launcher" type="button" aria-controls="accessibility-panel" aria-expanded="false">
+    <span class="accessibility-launcher-icon"><Accessibility size={17} stroke-width={2.25} /></span>
+    <span class="accessibility-launcher-label">Acessibilidade</span>
+  </button>
+</div>
+
+<aside id="accessibility-panel" class="accessibility-panel" aria-labelledby="accessibility-title" inert>
+  <div class="accessibility-panel-header">
+    <div>
+      <p class="accessibility-eyebrow">INCLUSÃO DIGITAL</p>
+      <h2 id="accessibility-title">Acessibilidade</h2>
+      <p>Personalize a leitura e a navegação do site.</p>
+    </div>
+    <CloseButton label="Fechar acessibilidade" data-accessibility-close />
+  </div>
+
+  <div class="accessibility-panel-body">
+    <fieldset class="accessibility-group">
+      <legend>Texto e leitura</legend>
+      <div class="accessibility-options">
+        <button class="accessibility-option" type="button" data-text-size="small">
+          <strong><AArrowDown /></strong>
+          <span>Diminuir texto</span>
+        </button>
+        <button class="accessibility-option" type="button" data-text-size="large">
+          <strong><AArrowUp /></strong>
+          <span>Aumentar texto</span>
+        </button>
+      </div>
+      <div class="accessibility-size-status">
+        Tamanho do texto: <strong data-text-size-value>100%</strong>
+      </div>
+      <div class="accessibility-options">
+        {
+          textOptions.map((option) => (
+            <button class="accessibility-option" type="button" data-accessibility-toggle={option.toggle} aria-pressed="false">
+              <strong><option.Icon /></strong>
+              <span>{option.label}</span>
+            </button>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <fieldset class="accessibility-group">
+      <legend>Contraste e visão</legend>
+      <div class="accessibility-options">
+        {
+          visionOptions.map((option) => (
+            <button class="accessibility-option" type="button" data-accessibility-toggle={option.toggle} aria-pressed="false">
+              <strong><option.Icon /></strong>
+              <span>{option.label}</span>
+            </button>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <fieldset class="accessibility-group">
+      <legend>Navegação e movimento</legend>
+      <div class="accessibility-options">
+        {
+          motionOptions.map((option) => (
+            <button class="accessibility-option" type="button" data-accessibility-toggle={option.toggle} aria-pressed="false">
+              <strong><option.Icon /></strong>
+              <span>{option.label}</span>
+            </button>
+          ))
+        }
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="accessibility-panel-footer">
+    <button class="accessibility-reset" type="button" data-accessibility-reset><RotateCcw size={16} stroke-width={2.5} /> Restaurar padrões</button>
+    <small>As preferências ficam salvas neste navegador.</small>
+  </div>
+</aside>
+
+<script>
+  import { initVLibras } from '../../lib/vlibras';
+
+  type TextSize = 'small' | 'normal' | 'large';
+  interface Preferences {
+    textSize: TextSize;
+    toggles: Record<string, boolean>;
+  }
+
+  const STORAGE_KEY = 'portal-accessibility-preferences-v1';
+  const launcher = document.getElementById('accessibility-launcher');
+  const panel = document.getElementById('accessibility-panel');
+
+  if (launcher && panel) {
+    const state: Preferences = { textSize: 'normal', toggles: {} };
+    try {
+      Object.assign(state, JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'));
+    } catch {
+      // Preferências inválidas são ignoradas.
+    }
+
+    const persist = () => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch {
+        // Sem armazenamento, as preferências valem só para esta visita.
+      }
+    };
+
+    const apply = () => {
+      const root = document.documentElement;
+      root.classList.toggle('accessibility-text-small', state.textSize === 'small');
+      root.classList.toggle('accessibility-text-large', state.textSize === 'large');
+      panel.querySelectorAll<HTMLButtonElement>('[data-accessibility-toggle]').forEach((button) => {
+        const name = button.dataset.accessibilityToggle ?? '';
+        const active = Boolean(state.toggles[name]);
+        document.body.classList.toggle(`accessibility-${name}`, active);
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      const value = panel.querySelector('[data-text-size-value]');
+      if (value) value.textContent = { small: '87%', normal: '100%', large: '113%' }[state.textSize];
+    };
+
+    const setOpen = (open: boolean) => {
+      panel.classList.toggle('is-open', open);
+      panel.inert = !open;
+      launcher.setAttribute('aria-expanded', String(open));
+      if (open) panel.querySelector<HTMLButtonElement>('[data-accessibility-close]')?.focus();
+      else launcher.focus();
+    };
+
+    launcher.addEventListener('click', () => setOpen(true));
+    panel.querySelector('[data-accessibility-close]')?.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && panel.classList.contains('is-open')) setOpen(false);
+    });
+
+    panel.querySelectorAll<HTMLButtonElement>('[data-text-size]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const requested = button.dataset.textSize as TextSize;
+        state.textSize = state.textSize === requested ? 'normal' : requested;
+        apply();
+        persist();
+      });
+    });
+
+    panel.querySelectorAll<HTMLButtonElement>('[data-accessibility-toggle]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const name = button.dataset.accessibilityToggle ?? '';
+        state.toggles[name] = !state.toggles[name];
+        apply();
+        persist();
+      });
+    });
+
+    panel.querySelector('[data-accessibility-reset]')?.addEventListener('click', () => {
+      state.textSize = 'normal';
+      state.toggles = {};
+      apply();
+      persist();
+    });
+
+    apply();
+  }
+
+  const vlibrasLauncher = document.getElementById('vlibras-launcher');
+  if (vlibrasLauncher instanceof HTMLButtonElement) initVLibras(vlibrasLauncher);
+</script>

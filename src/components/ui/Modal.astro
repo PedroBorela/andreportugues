@@ -1,0 +1,44 @@
+---
+/**
+ * Casca padrão dos modais (<dialog> nativo). O comportamento fica em `src/lib/modal.ts`.
+ * Use o slot `header` para substituir o cabeçalho padrão (eyebrow + título).
+ */
+import CloseButton from './CloseButton.astro';
+
+interface Props {
+  id: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  eyebrow?: string;
+  title?: string;
+  closeLabel?: string;
+  class?: string;
+  panelClass?: string;
+  /** Exibe uma linha divisória abaixo do cabeçalho. */
+  divider?: boolean;
+}
+
+const { id, size = 'md', eyebrow, title = '', closeLabel = 'Fechar', class: className, panelClass, divider = true } = Astro.props;
+const sizeClass = size === 'md' ? '' : `modal-${size}`;
+const hasHeaderSlot = Astro.slots.has('header');
+---
+
+<dialog id={id} class:list={['modal', sizeClass, className]} aria-labelledby={`${id}-title`}>
+  <div class:list={['modal-panel', panelClass]}>
+    {
+      hasHeaderSlot ? (
+        <slot name="header" />
+      ) : (
+        <div class:list={['flex items-start justify-between gap-4', divider && 'border-b border-surface pb-5']}>
+          <div class="min-w-0">
+            {eyebrow && <p class="text-xs font-extrabold uppercase tracking-[.16em] text-brand-green">{eyebrow}</p>}
+            <h2 id={`${id}-title`} class="mt-2 break-words text-2xl font-extrabold text-brand-blue">
+              {title}
+            </h2>
+          </div>
+          <CloseButton label={closeLabel} data-modal-close />
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</dialog>

@@ -1,0 +1,183 @@
+---
+import { ArrowLeft, ArrowRight, MapPin } from '@lucide/astro';
+import { agenda } from '../../data/agenda';
+import CloseButton from '../ui/CloseButton.astro';
+import Modal from '../ui/Modal.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const highlighted = agenda.slice(0, 2);
+---
+
+<section id="agenda" class="bg-white py-20 md:py-24">
+  <div class="mx-auto max-w-7xl px-6 md:px-8">
+    <div class="reveal mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <SectionHeading eyebrow="AGENDA OFICIAL" title="Crivella perto de você">
+        <p class="mt-3 max-w-2xl text-ink">
+          Acompanhe os próximos encontros, ouça as demandas de cada região Fluminense e participe das conversas que ajudam a transformar o nosso
+          estado.
+        </p>
+      </SectionHeading>
+      <button type="button" data-agenda-list-open class="btn-green inline-flex shrink-0 items-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold">
+        Ver agenda completa <ArrowRight size={18} stroke-width={2.5} />
+      </button>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2">
+      {
+        highlighted.map((event, index) => (
+          <article class="card-lift reveal overflow-hidden rounded-2xl border border-surface bg-surface">
+            <div class="bg-brand-blue p-6 text-white md:min-h-52">
+              <span
+                class:list={[
+                  'inline-flex rounded px-2 py-1 text-xs font-extrabold uppercase',
+                  index % 2 === 0 ? 'bg-brand-green text-white' : 'bg-brand-yellow text-brand-blue',
+                ]}
+              >
+                {event.type}
+              </span>
+              <p class="mt-5 text-sm text-white/70">
+                {event.date} • {event.time}
+              </p>
+              <h3 class="mt-2 text-2xl font-extrabold leading-tight">{event.title}</h3>
+            </div>
+            <div class="p-6">
+              <p class="mb-2 text-xs font-extrabold uppercase tracking-wider text-brand-green">Local / endereço</p>
+              <p class="mb-5 flex items-start gap-2 text-sm text-ink">
+                <MapPin class="shrink-0 text-brand-green" size={16} stroke-width={2.5} />
+                {event.location}
+              </p>
+              <p class="mb-6 text-sm leading-relaxed text-ink">{event.description}</p>
+              <button
+                type="button"
+                class="btn-green inline-flex w-full items-center justify-center rounded-lg py-3 text-sm font-extrabold"
+                data-agenda-id={event.id}
+              >
+                Ver detalhes
+              </button>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<Modal id="agenda-details-modal" size="xl" closeLabel="Fechar detalhes da agenda">
+  <div slot="header" class="flex items-start justify-between gap-4 border-b border-surface pb-5">
+    <div class="min-w-0">
+      <span data-field="type" class="inline-flex rounded bg-brand-green px-3 py-1 text-xs font-extrabold uppercase text-white"></span>
+      <h2 id="agenda-details-modal-title" data-field="title" class="mt-4 break-words text-2xl font-extrabold uppercase leading-tight text-brand-blue">
+      </h2>
+    </div>
+    <CloseButton label="Fechar detalhes da agenda" data-modal-close />
+  </div>
+  <dl class="mt-6 grid gap-4 rounded-2xl border border-surface bg-surface p-5 md:grid-cols-3">
+    <div>
+      <dt class="agenda-detail-label">Data</dt>
+      <dd data-field="date" class="font-bold leading-snug text-brand-blue [overflow-wrap:anywhere]"></dd>
+    </div>
+    <div>
+      <dt class="agenda-detail-label">Horário</dt>
+      <dd data-field="time" class="font-bold leading-snug text-brand-blue [overflow-wrap:anywhere]"></dd>
+    </div>
+    <div>
+      <dt class="agenda-detail-label">Local / endereço</dt>
+      <dd data-field="location" class="font-bold leading-snug text-brand-blue [overflow-wrap:anywhere]"></dd>
+    </div>
+  </dl>
+  <div class="mt-5 rounded-2xl border border-surface bg-surface p-5">
+    <p class="agenda-detail-label">Descrição</p>
+    <p data-field="description" class="mt-2 break-words leading-relaxed text-ink"></p>
+  </div>
+</Modal>
+
+<Modal id="agenda-list-modal" size="lg" eyebrow="AGENDA OFICIAL" title="Agenda completa" closeLabel="Fechar agenda completa">
+  <div data-list-items class="mt-5 grid gap-3"></div>
+  <div class="modal-pager mt-6 flex items-center justify-between gap-4 border-t border-surface pt-5">
+    <span data-list-label class="text-sm text-ink"></span>
+    <div class="flex gap-2">
+      <button type="button" class="pager-button" data-list-prev><ArrowLeft size={16} /> Anterior</button>
+      <button type="button" class="pager-button" data-list-next>Próxima <ArrowRight size={16} /></button>
+    </div>
+  </div>
+</Modal>
+
+<script>
+  import { agenda } from '../../data/agenda';
+  import { createElement, paginate } from '../../lib/content';
+  import { getModal, openModal } from '../../lib/modal';
+  import type { AgendaEvent } from '../../lib/types';
+
+  const detailsModal = getModal('agenda-details-modal');
+  const listModal = getModal('agenda-list-modal');
+
+  const withFallback = (event: AgendaEvent) => ({
+    type: event.type || 'Agenda',
+    title: event.title || 'Compromisso',
+    date: event.date || 'Data a confirmar',
+    time: event.time || 'Horário a confirmar',
+    location: event.location || 'Local a confirmar',
+    description: event.description || 'Sem descrição cadastrada.',
+  });
+
+  const openDetails = (event: AgendaEvent) => {
+    const fields = withFallback(event);
+    detailsModal?.querySelectorAll<HTMLElement>('[data-field]').forEach((node) => {
+      node.textContent = fields[node.dataset.field as keyof typeof fields] ?? '';
+    });
+    openModal(detailsModal);
+  };
+
+  document.querySelectorAll<HTMLButtonElement>('[data-agenda-id]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const event = agenda.find((item) => item.id === Number(button.dataset.agendaId));
+      if (event) openDetails(event);
+    });
+  });
+
+  const listItems = listModal?.querySelector('[data-list-items]');
+  const listLabel = listModal?.querySelector('[data-list-label]');
+  const prev = listModal?.querySelector<HTMLButtonElement>('[data-list-prev]');
+  const next = listModal?.querySelector<HTMLButtonElement>('[data-list-next]');
+  let page = 0;
+
+  const render = () => {
+    if (!listItems || !listLabel || !prev || !next) return;
+    const result = paginate(agenda, page, 5);
+    page = result.page;
+    listItems.replaceChildren(
+      ...result.items.map((event) => {
+        const fields = withFallback(event);
+        const item = createElement('button', 'list-item items-start');
+        item.type = 'button';
+        const copy = createElement('span', 'min-w-0 flex-1');
+        copy.append(
+          createElement('small', 'block text-xs font-extrabold uppercase tracking-wider text-brand-green', fields.type),
+          createElement('strong', 'mt-1 block text-base leading-snug text-brand-blue', fields.title),
+          createElement('span', 'mt-2 block text-sm text-ink', `${fields.date} • ${fields.time} • ${fields.location}`),
+          createElement('span', 'mt-1 block text-sm leading-relaxed text-ink', event.description),
+        );
+        item.append(copy);
+        item.addEventListener('click', () => openDetails(event));
+        return item;
+      }),
+    );
+    listLabel.textContent = result.label;
+    prev.disabled = result.page === 0;
+    next.disabled = result.page >= result.totalPages - 1;
+  };
+
+  document.querySelector('[data-agenda-list-open]')?.addEventListener('click', () => {
+    page = 0;
+    render();
+    openModal(listModal);
+  });
+  prev?.addEventListener('click', () => {
+    page -= 1;
+    render();
+  });
+  next?.addEventListener('click', () => {
+    page += 1;
+    render();
+  });
+</script>

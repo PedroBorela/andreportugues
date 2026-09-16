@@ -1,0 +1,130 @@
+---
+import { ArrowLeft, ArrowRight } from '@lucide/astro';
+import { proposals } from '../../data/proposals';
+import type { BrandColor } from '../../lib/types';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const hex: Record<BrandColor, string> = { blue: '#1443cb', green: '#00a551', yellow: '#ffc400' };
+
+const cardStyle = (color: BrandColor, image: string) =>
+  `background-color:${hex[color]};background-image:linear-gradient(135deg, ${hex[color]}e6 0%, ${hex[color]}b3 100%), url('${image}');`;
+---
+
+<section id="propostas" class="overflow-hidden bg-surface py-20 md:py-24">
+  <div class="mx-auto max-w-7xl px-6 md:px-8">
+    <div class="reveal mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+      <SectionHeading eyebrow="PRIORIDADES" title="As Principais Bandeiras" />
+      <p class="max-w-md text-sm leading-relaxed text-ink">Um compromisso com as pessoas e com o futuro do Rio de Janeiro</p>
+    </div>
+
+    <div class="relative">
+      <div id="proposal-track" class="carousel-track hide-scrollbar flex gap-6 overflow-x-auto pb-5">
+        {
+          proposals.map((proposal, index) => (
+            <article
+              class="carousel-card reveal relative min-w-[85vw] overflow-hidden rounded-2xl bg-cover bg-center p-8 text-white shadow-lg md:min-w-[560px] md:p-10"
+              style={cardStyle(proposal.color, proposal.image)}
+            >
+              <div class:list={['absolute', proposal.decoration]} aria-hidden="true" />
+              <span class="relative text-sm font-extrabold tracking-widest text-white">{proposal.category}</span>
+              <h3 class="relative mt-3 text-4xl font-extrabold">{proposal.title}</h3>
+              <p class="relative mt-4 max-w-md leading-relaxed text-white/85">{proposal.summary}</p>
+              <button
+                type="button"
+                class="relative mt-8 inline-flex items-center gap-2 rounded-full border-2 border-white px-5 py-2 font-bold text-white transition hover:border-brand-blue hover:bg-brand-blue"
+                data-proposal-index={index}
+              >
+                Conhecer Mais Sobre <ArrowRight size={18} stroke-width={2.5} />
+              </button>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="mt-3 flex items-center justify-between">
+        <div class="flex gap-2" aria-label="Indicadores do carrossel">
+          {
+            proposals.map((_, index) => (
+              <button
+                type="button"
+                class:list={['carousel-dot h-2.5 rounded-full transition-all', index === 0 ? 'w-8 bg-brand-green' : 'w-2.5 bg-ink/25']}
+                data-index={index}
+                aria-label={`Mostrar proposta ${index + 1}`}
+                aria-current={index === 0 ? 'true' : undefined}
+              />
+            ))
+          }
+        </div>
+        <div class="hidden gap-2 md:flex">
+          <button type="button" data-carousel-step="-1" class="rounded-full bg-brand-blue px-4 py-2 text-white transition hover:bg-brand-green" aria-label="Proposta anterior"><ArrowLeft size={18} stroke-width={2.5} /></button>
+          <button type="button" data-carousel-step="1" class="rounded-full bg-brand-blue px-4 py-2 text-white transition hover:bg-brand-green" aria-label="Próxima proposta"><ArrowRight size={18} stroke-width={2.5} /></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { proposals } from '../../data/proposals';
+  import { proposalToDetails, requestContentModal } from '../../lib/content';
+
+  const track = document.getElementById('proposal-track');
+  const cards = [...document.querySelectorAll<HTMLElement>('#propostas .carousel-card')];
+  const dots = [...document.querySelectorAll<HTMLButtonElement>('#propostas .carousel-dot')];
+  let activeIndex = 0;
+
+  const highlightDot = (index: number) => {
+    dots.forEach((dot, dotIndex) => {
+      const active = dotIndex === index;
+      dot.classList.toggle('w-8', active);
+      dot.classList.toggle('bg-brand-green', active);
+      dot.classList.toggle('w-2.5', !active);
+      dot.classList.toggle('bg-ink/25', !active);
+      if (active) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    });
+  };
+
+  const goTo = (index: number) => {
+    if (!cards.length || !track) return;
+    activeIndex = (index + cards.length) % cards.length;
+    const card = cards[activeIndex];
+    // Rola apenas o carrossel, sem mover a página verticalmente.
+    track.scrollTo({ left: card.offsetLeft - (track.clientWidth - card.clientWidth) / 2, behavior: 'smooth' });
+    highlightDot(activeIndex);
+  };
+
+  document.querySelectorAll<HTMLButtonElement>('#propostas [data-carousel-step]').forEach((button) => {
+    button.addEventListener('click', () => goTo(activeIndex + Number(button.dataset.carouselStep)));
+  });
+  dots.forEach((dot) => dot.addEventListener('click', () => goTo(Number(dot.dataset.index))));
+
+  // Mantém os indicadores sincronizados quando o usuário arrasta o carrossel.
+  let scrollTimer = 0;
+  track?.addEventListener(
+    'scroll',
+    () => {
+      window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        const center = track.scrollLeft + track.clientWidth / 2;
+        const closest = cards.reduce(
+          (best, card, index) => {
+            const distance = Math.abs(card.offsetLeft + card.clientWidth / 2 - center);
+            return distance < best.distance ? { index, distance } : best;
+          },
+          { index: 0, distance: Infinity },
+        );
+        activeIndex = closest.index;
+        highlightDot(activeIndex);
+      }, 120);
+    },
+    { passive: true },
+  );
+
+  document.querySelectorAll<HTMLButtonElement>('[data-proposal-index]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const proposal = proposals[Number(button.dataset.proposalIndex)];
+      if (proposal) requestContentModal(proposalToDetails(proposal));
+    });
+  });
+</script>

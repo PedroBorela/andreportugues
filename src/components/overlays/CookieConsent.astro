@@ -1,0 +1,68 @@
+---
+import { Check } from '@lucide/astro';
+import { cookieConsent } from '../../config/site';
+---
+
+{
+  cookieConsent.enabled && (
+    <section
+      id="cookie-consent"
+      class="cookie-consent is-hidden"
+      aria-live="polite"
+      aria-labelledby="cookie-consent-title"
+      aria-describedby="cookie-consent-message"
+      data-analytics-id={cookieConsent.analyticsId}
+    >
+      <span class="cookie-consent-icon" aria-hidden="true">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.5 13.2A7.8 7.8 0 0 1 10.8 3.5 8.5 8.5 0 1 0 20.5 13.2Z" />
+          <path d="M8 9h.01M12 7h.01M16 10h.01M10 14h.01M15 16h.01" />
+        </svg>
+      </span>
+      <div class="cookie-consent-copy">
+        <strong id="cookie-consent-title">{cookieConsent.title}</strong>
+        <p id="cookie-consent-message">{cookieConsent.message}</p>
+      </div>
+      <div class="cookie-consent-actions">
+        <button class="cookie-reject" type="button" data-consent="rejected">
+          Rejeitar
+        </button>
+        <button class="cookie-accept inline-flex items-center gap-1.5" type="button" data-consent="accepted">
+          <Check size={16} stroke-width={3} />
+          Aceitar
+        </button>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  import { loadAnalytics } from '../../lib/analytics';
+  import { markConsentResolved, readConsent, saveConsent, type ConsentValue } from '../../lib/consent';
+
+  const banner = document.getElementById('cookie-consent');
+
+  if (banner) {
+    const analyticsId = banner.dataset.analyticsId ?? '';
+    const saved = readConsent();
+
+    if (saved) {
+      banner.remove();
+      markConsentResolved();
+      if (saved === 'accepted') loadAnalytics(analyticsId);
+    } else {
+      // Só aparece com JavaScript ativo e sem resposta anterior (evita piscar para quem já respondeu).
+      requestAnimationFrame(() => banner.classList.remove('is-hidden'));
+      banner.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const value = button.dataset.consent as ConsentValue;
+          saveConsent(value);
+          banner.classList.add('is-hidden');
+          window.setTimeout(() => banner.remove(), 280);
+          markConsentResolved();
+          if (value === 'accepted') loadAnalytics(analyticsId);
+        });
+      });
+    }
+  }
+</script>

@@ -1,0 +1,214 @@
+---
+import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from '@lucide/astro';
+import { instagramProfile } from '../../config/site';
+import { galleries } from '../../data/galleries';
+import { instagramPosts } from '../../data/instagram';
+import Modal from '../ui/Modal.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const featuredGallery = galleries.find((gallery) => gallery.featured) ?? galleries[0];
+const previewPhotos = featuredGallery
+  ? [{ title: `Capa da galeria ${featuredGallery.title}`, image: featuredGallery.cover }, ...featuredGallery.photos].slice(0, 6)
+  : [];
+---
+
+<section id="conecte" class="bg-surface py-20 md:py-24">
+  <div class="mx-auto max-w-7xl px-6 md:px-8">
+    <div class="grid items-start gap-10 md:grid-cols-[1.12fr_.88fr]">
+      <div class="reveal">
+        <SectionHeading eyebrow="PRESENÇA E CONEXÃO" title="Galeria de fotos">
+          <p class="mt-4 max-w-xl leading-relaxed text-ink">
+            Acompanhe os encontros, as conversas e os momentos que aproximam Marcelo Crivella das pessoas.
+          </p>
+        </SectionHeading>
+
+        {
+          featuredGallery && (
+            <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {previewPhotos.map((photo, index) => (
+                <button
+                  type="button"
+                  class="gallery-photo-trigger group aspect-square overflow-hidden rounded-2xl bg-surface"
+                  data-gallery-id={featuredGallery.id}
+                  data-gallery-index={index}
+                  aria-label={`Abrir foto ${index + 1} da galeria ${featuredGallery.title}`}
+                >
+                  <img src={photo.image} alt={photo.title} loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                </button>
+              ))}
+            </div>
+          )
+        }
+        <button type="button" data-gallery-list-open class="btn-green mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 font-extrabold">Veja mais <ArrowRight size={18} stroke-width={2.5} /></button>
+      </div>
+
+      <div class="reveal rounded-3xl bg-white p-6 shadow-xl md:p-7">
+        <div class="flex items-center gap-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-brand-blue">
+            <img src="/assets/social-instagram.webp" alt="" class="h-6 w-6 invert" />
+          </div>
+          <div>
+            <p class="text-xs font-extrabold uppercase tracking-wider text-brand-green">Siga o canal oficial</p>
+            <h2 class="text-2xl font-extrabold text-brand-blue">Acompanhe o Instagram oficial</h2>
+          </div>
+        </div>
+        <p class="mt-5 leading-relaxed text-ink">Informação, agendas e encontros em um canal direto com você.</p>
+        <div class="mt-6 grid grid-cols-2 gap-3">
+          {
+            instagramPosts.map((post, index) => (
+              <a class="group aspect-square overflow-hidden rounded-xl bg-surface" href={post.url} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={post.image}
+                  alt={`Publicação ${index + 1} do Instagram`}
+                  loading="lazy"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+              </a>
+            ))
+          }
+        </div>
+        <a
+          href={instagramProfile.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 font-extrabold"
+        >
+          {instagramProfile.handle}
+          <ArrowUpRight size={18} stroke-width={2.5} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<Modal id="gallery-modal" size="xl" eyebrow="GALERIA DE FOTOS" closeLabel="Fechar galeria">
+  <div class="gallery-viewer mt-6">
+    <button type="button" class="gallery-arrow left-4" data-gallery-step="-1" aria-label="Foto anterior"><ChevronLeft size={28} /></button>
+    <img data-gallery-image src="data:," alt="" />
+    <button type="button" class="gallery-arrow right-4" data-gallery-step="1" aria-label="Próxima foto"><ChevronRight size={28} /></button>
+  </div>
+  <div class="mt-4 flex items-center justify-between gap-4">
+    <p data-gallery-caption class="min-w-0 font-bold text-brand-blue [overflow-wrap:anywhere]"></p>
+    <span data-gallery-counter class="shrink-0 text-sm text-ink" aria-live="polite"></span>
+  </div>
+</Modal>
+
+<Modal id="gallery-list-modal" size="lg" eyebrow="PRESENÇA E CONEXÃO" title="Galerias de fotos" closeLabel="Fechar lista de galerias">
+  <div data-list-items class="mt-5 grid gap-3"></div>
+  <div class="modal-pager mt-6 flex items-center justify-between gap-4 border-t border-surface pt-5">
+    <span data-list-label class="text-sm text-ink"></span>
+    <div class="flex gap-2">
+      <button type="button" class="pager-button" data-list-prev><ArrowLeft size={16} /> Anterior</button>
+      <button type="button" class="pager-button" data-list-next>Próxima <ArrowRight size={16} /></button>
+    </div>
+  </div>
+</Modal>
+
+<script>
+  import { galleries } from '../../data/galleries';
+  import { createElement, paginate } from '../../lib/content';
+  import { getModal, openModal } from '../../lib/modal';
+  import type { Gallery, GalleryPhoto } from '../../lib/types';
+
+  const viewer = getModal('gallery-modal');
+  const viewerTitle = viewer?.querySelector('#gallery-modal-title');
+  const viewerImage = viewer?.querySelector<HTMLImageElement>('[data-gallery-image]');
+  const viewerCaption = viewer?.querySelector('[data-gallery-caption]');
+  const viewerCounter = viewer?.querySelector('[data-gallery-counter]');
+  const stepButtons = viewer?.querySelectorAll<HTMLButtonElement>('[data-gallery-step]') ?? [];
+
+  let activeGallery: Gallery | null = null;
+  let activePhotos: GalleryPhoto[] = [];
+  let activeIndex = 0;
+
+  const renderPhoto = () => {
+    if (!activeGallery || !activePhotos.length || !viewerImage) return;
+    activeIndex = (activeIndex + activePhotos.length) % activePhotos.length;
+    const photo = activePhotos[activeIndex];
+    if (viewerTitle) viewerTitle.textContent = activeGallery.title || 'Galeria de fotos';
+    viewerImage.src = photo.image;
+    viewerImage.alt = photo.title || activeGallery.title;
+    if (viewerCaption) viewerCaption.textContent = photo.title || activeGallery.title;
+    if (viewerCounter) viewerCounter.textContent = `${activeIndex + 1} de ${activePhotos.length}`;
+    stepButtons.forEach((button) => (button.disabled = activePhotos.length < 2));
+  };
+
+  const openGallery = (id: number, index = 0) => {
+    const gallery = galleries.find((item) => item.id === id);
+    if (!gallery) return;
+    activeGallery = gallery;
+    activePhotos = [{ title: 'Capa da galeria', image: gallery.cover }, ...gallery.photos];
+    activeIndex = index;
+    renderPhoto();
+    openModal(viewer);
+  };
+
+  const step = (delta: number) => {
+    activeIndex += delta;
+    renderPhoto();
+  };
+
+  stepButtons.forEach((button) => button.addEventListener('click', () => step(Number(button.dataset.galleryStep))));
+  viewer?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') step(-1);
+    if (event.key === 'ArrowRight') step(1);
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-gallery-id]').forEach((button) => {
+    button.addEventListener('click', () => openGallery(Number(button.dataset.galleryId), Number(button.dataset.galleryIndex)));
+  });
+
+  const listModal = getModal('gallery-list-modal');
+  const listItems = listModal?.querySelector('[data-list-items]');
+  const listLabel = listModal?.querySelector('[data-list-label]');
+  const prev = listModal?.querySelector<HTMLButtonElement>('[data-list-prev]');
+  const next = listModal?.querySelector<HTMLButtonElement>('[data-list-next]');
+  let page = 0;
+
+  const renderList = () => {
+    if (!listItems || !listLabel || !prev || !next) return;
+    const result = paginate(galleries, page, 5);
+    page = result.page;
+    if (!galleries.length) {
+      listItems.replaceChildren(
+        createElement('p', 'rounded-xl border border-dashed border-surface p-8 text-center text-ink', 'Nenhuma galeria publicada no momento.'),
+      );
+    } else {
+      listItems.replaceChildren(
+        ...result.items.map((gallery) => {
+          const item = createElement('button', 'list-item gallery-list-item');
+          item.type = 'button';
+          const cover = createElement('img');
+          cover.src = gallery.cover;
+          cover.alt = '';
+          cover.loading = 'lazy';
+          const copy = createElement('span', 'min-w-0 flex-1');
+          copy.append(
+            createElement('strong', 'block text-base leading-snug text-brand-blue', gallery.title || 'Galeria de fotos'),
+            createElement('span', 'mt-1 block text-sm text-ink', `${gallery.photos.length} foto(s) • ${gallery.createdAt}`),
+          );
+          item.append(cover, copy);
+          item.addEventListener('click', () => openGallery(gallery.id));
+          return item;
+        }),
+      );
+    }
+    listLabel.textContent = result.label;
+    prev.disabled = result.page === 0;
+    next.disabled = result.page >= result.totalPages - 1;
+  };
+
+  document.querySelector('[data-gallery-list-open]')?.addEventListener('click', () => {
+    page = 0;
+    renderList();
+    openModal(listModal);
+  });
+  prev?.addEventListener('click', () => {
+    page -= 1;
+    renderList();
+  });
+  next?.addEventListener('click', () => {
+    page += 1;
+    renderList();
+  });
+</script>

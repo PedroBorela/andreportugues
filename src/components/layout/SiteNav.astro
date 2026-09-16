@@ -1,0 +1,70 @@
+---
+import { donate, navigation, site } from '../../config/site';
+import SocialLinks from '../ui/SocialLinks.astro';
+---
+
+<nav
+  id="site-nav"
+  class="site-nav sticky top-0 z-50 border-b border-white/10 bg-brand-blue/95 px-5 py-4 text-white backdrop-blur-md transition-shadow md:px-8"
+  aria-label="Navegação principal"
+>
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-6">
+    <a href="#inicio" class="shrink-0" aria-label="Marcelo Crivella, início">
+      <img src={site.logo} alt="Logo Marcelo Crivella" class="site-nav-logo w-auto object-contain" />
+    </a>
+
+    <div class="hidden items-center gap-6 text-xs font-bold tracking-wide md:flex">
+      {navigation.map((item) => <a class="nav-link" href={item.href}>{item.label}</a>)}
+    </div>
+
+    <div class="flex items-center gap-3">
+      <SocialLinks variant="nav" class="hidden md:flex" />
+      <a href={donate.href} class="btn-primary hidden rounded-full px-5 py-2 text-sm font-extrabold md:inline-flex">{donate.label}</a>
+      <button
+        id="menu-toggle"
+        class="menu-toggle rounded-lg p-2 text-white transition hover:bg-white/10 md:hidden"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg class="menu-icon-open h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg class="menu-icon-close h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="mx-auto max-w-7xl border-t border-white/10 pt-4 md:hidden" hidden>
+    <div class="grid gap-1 text-sm font-bold">
+      {navigation.map((item) => <a class="rounded-lg px-3 py-3 hover:bg-white/10" href={item.href}>{item.label}</a>)}
+    </div>
+    <a href={donate.href} class="btn-primary mt-4 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-extrabold">
+      {donate.label}
+    </a>
+    <SocialLinks variant="nav" class="mt-4 border-t border-white/10 pt-4" />
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById('site-nav');
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  const setMenuOpen = (open: boolean) => {
+    if (!toggle || !menu) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    menu.hidden = !open;
+  };
+
+  toggle?.addEventListener('click', () => setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenuOpen(false)));
+
+  const updateShadow = () => nav?.classList.toggle('shadow-lg', window.scrollY > 8);
+  window.addEventListener('scroll', updateShadow, { passive: true });
+  updateShadow();
+</script>

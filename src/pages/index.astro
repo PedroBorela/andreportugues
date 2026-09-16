@@ -1,0 +1,49 @@
+---
+import Footer from '../components/layout/Footer.astro';
+import SiteNav from '../components/layout/SiteNav.astro';
+import AccessibilityTools from '../components/overlays/AccessibilityTools.astro';
+import ContentModal from '../components/overlays/ContentModal.astro';
+import CookieConsent from '../components/overlays/CookieConsent.astro';
+import EntryPopup from '../components/overlays/EntryPopup.astro';
+import FloatingActions from '../components/overlays/FloatingActions.astro';
+import JinglePlayer from '../components/overlays/JinglePlayer.astro';
+import Agenda from '../components/sections/Agenda.astro';
+import Connect from '../components/sections/Connect.astro';
+import Hero from '../components/sections/Hero.astro';
+import Materials from '../components/sections/Materials.astro';
+import News from '../components/sections/News.astro';
+import Newsletter from '../components/sections/Newsletter.astro';
+import Proposals from '../components/sections/Proposals.astro';
+import Videos from '../components/sections/Videos.astro';
+import WhatsAppCommunity from '../components/sections/WhatsAppCommunity.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+  <AccessibilityTools />
+  <SiteNav />
+  <Hero />
+
+  <main>
+    <Proposals />
+    <News />
+    <Agenda />
+    <Materials />
+    <Videos />
+    <Connect />
+    <WhatsAppCommunity />
+    <Newsletter />
+  </main>
+
+  <Footer />
+
+  <ContentModal />
+  <EntryPopup />
+  <CookieConsent />
+  <JinglePlayer />
+  <FloatingActions />
+</BaseLayout>
+
+<script>
+  import '../scripts/reveal';
+</script>

@@ -1,0 +1,12 @@
+---
+import { X } from '@lucide/astro';
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'button'> & { label: string };
+
+const { label, class: className, ...rest } = Astro.props;
+---
+
+<button class:list={['modal-close', className]} type="button" aria-label={label} {...rest}>
+  <X size={22} stroke-width={2.5} />
+</button>

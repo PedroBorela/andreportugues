@@ -1,0 +1,385 @@
+/* Preferências aplicadas pelo painel de acessibilidade (classes em <html> e <body>). */
+@layer base {
+  html.accessibility-text-small {
+    font-size: 87.5%;
+  }
+
+  html.accessibility-text-large {
+    font-size: 112.5%;
+  }
+
+  body.accessibility-readable-font,
+  body.accessibility-readable-font :is(button, input, textarea, select) {
+    font-family: Arial, sans-serif !important;
+  }
+
+  body.accessibility-letter-spacing * {
+    letter-spacing: 0.055em !important;
+  }
+
+  body.accessibility-line-spacing * {
+    line-height: 1.85 !important;
+  }
+
+  body.accessibility-high-contrast {
+    background: #000 !important;
+    color: #fff !important;
+    filter: contrast(1.18);
+  }
+
+  body.accessibility-high-contrast :is(.site-nav, header, section, footer, .modal-panel) {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+  }
+
+  body.accessibility-invert {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  body.accessibility-grayscale {
+    filter: grayscale(1);
+  }
+
+  body.accessibility-highlight-links :is(a, button) {
+    outline: 3px solid var(--yellow) !important;
+    outline-offset: 2px !important;
+  }
+
+  body.accessibility-pause-motion *,
+  body.accessibility-pause-motion *::before,
+  body.accessibility-pause-motion *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  body.accessibility-large-cursor,
+  body.accessibility-large-cursor * {
+    cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"%3E%3Cpath d="M4 2l22 15-10 2 6 9-5 3-6-10-7 7z" fill="%23fff" stroke="%23000" stroke-width="2"/%3E%3C/svg%3E') 4 2, auto !important;
+  }
+
+  body.accessibility-reading-mode .accessibility-reading-hide {
+    display: none !important;
+  }
+
+  body.accessibility-reading-mode main {
+    max-width: 900px;
+    margin-inline: auto;
+    background: #fff;
+  }
+
+  body.accessibility-reading-mode :is(.hero-bg, .video-showcase-section) {
+    background: #fff !important;
+    color: var(--ink) !important;
+  }
+}
+
+@layer components {
+  .accessibility-tools {
+    position: fixed;
+    right: 24px;
+    bottom: 92px;
+    z-index: 130;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .accessibility-launcher {
+    display: flex;
+    min-height: 50px;
+    align-items: center;
+    gap: 9px;
+    padding: 0 15px;
+    border: 0;
+    border-radius: 18px;
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 12px 28px rgb(20 67 203 / 0.28);
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .accessibility-launcher.is-vlibras {
+    background: var(--green);
+  }
+
+  .accessibility-launcher:hover,
+  .accessibility-launcher:focus-visible {
+    background: theme('colors.brand.blue-dark');
+  }
+
+  .accessibility-launcher-icon {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border: 2px solid var(--yellow);
+    border-radius: 50%;
+    color: var(--yellow);
+  }
+
+  /* O VLibras cria um acionador nativo em Shadow DOM; usamos o nosso botão no lugar dele. */
+  #vlibras-access-wrapper,
+  .vw-access-button,
+  [vw-access-button] {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .accessibility-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 140;
+    display: flex;
+    width: min(380px, 100vw);
+    height: 100dvh;
+    flex-direction: column;
+    overflow: hidden;
+    border-left: 4px solid var(--green);
+    background: #f8fafc;
+    color: var(--ink);
+    box-shadow: -18px 0 45px rgb(15 23 42 / 0.25);
+    transform: translateX(105%);
+    transition: transform 0.25s ease;
+  }
+
+  .accessibility-panel.is-open {
+    transform: translateX(0);
+  }
+
+  .accessibility-panel-header {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 22px 18px;
+    border-top: 4px solid var(--blue);
+    border-bottom: 1px solid #cbd5e1;
+    background: #fff;
+  }
+
+  .accessibility-eyebrow {
+    margin: 0 0 4px;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .accessibility-panel-header h2 {
+    margin: 0;
+    color: var(--blue);
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.05;
+  }
+
+  .accessibility-panel-header p:not(.accessibility-eyebrow) {
+    max-width: 270px;
+    margin: 10px 0 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .accessibility-panel-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 22px;
+  }
+
+  .accessibility-group {
+    margin: 0;
+    padding: 0 0 20px;
+    border: 0;
+    border-bottom: 1px solid #cbd5e1;
+  }
+
+  .accessibility-group + .accessibility-group {
+    padding-top: 20px;
+  }
+
+  .accessibility-group legend {
+    margin-bottom: 12px;
+    color: theme('colors.brand.blue-dark');
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .accessibility-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .accessibility-options + .accessibility-options,
+  .accessibility-size-status + .accessibility-options {
+    margin-top: 10px;
+  }
+
+  .accessibility-option {
+    display: flex;
+    min-height: 78px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 7px;
+    padding: 14px;
+    border: 1px solid #bfdbfe;
+    border-radius: 15px;
+    background: #fff;
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .accessibility-option strong {
+    display: flex;
+    color: theme('colors.brand.blue-dark');
+  }
+
+  .accessibility-option svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .accessibility-option span {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .accessibility-option:hover,
+  .accessibility-option:focus-visible,
+  .accessibility-option.is-active {
+    border-color: var(--blue);
+    background: #eff6ff;
+    box-shadow: 0 0 0 2px rgb(20 67 203 / 0.1);
+  }
+
+  .accessibility-size-status {
+    margin-top: 10px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: #e2edf7;
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  .accessibility-size-status strong {
+    color: theme('colors.brand.blue-dark');
+  }
+
+  .accessibility-panel-footer {
+    flex: 0 0 auto;
+    padding: 16px 22px 18px;
+    border-top: 1px solid #cbd5e1;
+    background: #fff;
+    text-align: center;
+  }
+
+  .accessibility-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #93c5fd;
+    border-radius: 999px;
+    background: #fff;
+    color: theme('colors.brand.blue-dark');
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .accessibility-panel-footer small {
+    display: block;
+    margin-top: 10px;
+    color: #94a3b8;
+    font-size: 11px;
+  }
+
+  @media (max-width: 640px) {
+    .accessibility-tools {
+      right: 14px;
+      bottom: 86px;
+      gap: 5px;
+    }
+
+    .accessibility-launcher {
+      width: 48px;
+      min-height: 48px;
+      justify-content: center;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .accessibility-launcher-icon {
+      width: 27px;
+      height: 27px;
+    }
+
+    .accessibility-launcher-label {
+      display: none;
+    }
+
+    .accessibility-panel {
+      width: min(330px, 100vw);
+    }
+
+    .accessibility-panel-header {
+      padding: 14px 12px 11px;
+    }
+
+    .accessibility-panel-header h2 {
+      font-size: 22px;
+    }
+
+    .accessibility-panel-header p:not(.accessibility-eyebrow) {
+      margin-top: 6px;
+      font-size: 11px;
+    }
+
+    .accessibility-panel-body {
+      padding: 12px;
+    }
+
+    .accessibility-group {
+      padding-bottom: 12px;
+    }
+
+    .accessibility-group + .accessibility-group {
+      padding-top: 12px;
+    }
+
+    .accessibility-option {
+      min-height: 60px;
+      padding: 9px;
+      border-radius: 11px;
+    }
+
+    .accessibility-option svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .accessibility-option span {
+      font-size: 10px;
+    }
+
+    .accessibility-panel-footer {
+      padding: 10px 12px 11px;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+---
+/** Botões de compartilhamento. Os links são preenchidos em tempo de execução por `updateShareButtons`. */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const networks = [
+  { key: 'whatsapp', label: 'WhatsApp', color: 'bg-brand-green' },
+  { key: 'facebook', label: 'Facebook', color: 'bg-brand-blue' },
+  { key: 'telegram', label: 'Telegram', color: 'bg-brand-blue' },
+  { key: 'x', label: 'X', color: 'bg-black hover:bg-ink' },
+  { key: 'linkedin', label: 'LinkedIn', color: 'bg-brand-blue' },
+];
+---
+
+<div class={className} data-share-root>
+  <div class="flex flex-wrap gap-2">
+    {
+      networks.slice(0, 3).map((network) => (
+        <a class:list={['share-btn', network.color]} data-share={network.key} href="#" target="_blank" rel="noopener noreferrer">
+          {network.label}
+        </a>
+      ))
+    }
+    <button
+      class="share-btn bg-gradient-to-r from-[#f58529] via-[#dd2a7b] to-[#8134af] hover:brightness-110"
+      type="button"
+      data-share="instagram"
+    >
+      Instagram
+    </button>
+    {
+      networks.slice(3).map((network) => (
+        <a class:list={['share-btn', network.color]} data-share={network.key} href="#" target="_blank" rel="noopener noreferrer">
+          {network.label}
+        </a>
+      ))
+    }
+  </div>
+  <p class="mt-2 text-xs font-bold text-brand-green" role="status" aria-live="polite" data-share-feedback hidden>
+    Link copiado. Cole no Instagram para compartilhar.
+  </p>
+</div>

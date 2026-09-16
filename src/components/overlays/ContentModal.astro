@@ -1,0 +1,88 @@
+---
+import CloseButton from '../ui/CloseButton.astro';
+import Modal from '../ui/Modal.astro';
+import ShareButtons from '../ui/ShareButtons.astro';
+---
+
+<Modal id="content-modal" closeLabel="Fechar detalhes" divider={false}>
+  <div slot="header" class="flex items-start justify-between gap-4">
+    <div class="min-w-0">
+      <span data-field="category" class="text-xs font-extrabold uppercase tracking-[.16em] text-brand-green"></span>
+      <h2 id="content-modal-title" data-field="title" class="mt-2 text-2xl font-extrabold text-brand-blue"></h2>
+    </div>
+    <CloseButton label="Fechar detalhes" data-modal-close />
+  </div>
+  <img data-field="image" class="modal-image mt-5 rounded-xl" alt="" hidden />
+  <p data-field="subtitle" class="mt-5 text-base font-bold leading-relaxed text-brand-blue"></p>
+  <div data-field="content" class="rich-text mt-4 whitespace-pre-line text-justify leading-relaxed text-ink"></div>
+  <div class="mt-7 border-t border-surface pt-5">
+    <p data-field="share-title" class="mb-3 text-xs font-extrabold uppercase tracking-[.16em] text-ink">Compartilhe este conteúdo</p>
+    <ShareButtons />
+  </div>
+</Modal>
+
+<script>
+  import { OPEN_CONTENT_EVENT } from '../../lib/content';
+  import { getModal, openModal } from '../../lib/modal';
+  import { updateShareButtons } from '../../lib/share';
+  import type { ContentDetails } from '../../lib/types';
+
+  const modal = getModal('content-modal');
+  const field = <T extends HTMLElement = HTMLElement>(name: string) => modal?.querySelector<T>(`[data-field="${name}"]`);
+
+  const ALLOWED_TAGS = new Set(['B', 'STRONG', 'I', 'EM', 'BR', 'P', 'U', 'A', 'UL', 'OL', 'LI', 'IFRAME']);
+
+  /** O conteúdo vem do CMS: mantém só marcações simples para evitar injeção de scripts. */
+  const sanitize = (html: string) => {
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    template.content.querySelectorAll('*').forEach((node) => {
+      if (!ALLOWED_TAGS.has(node.tagName)) {
+        node.replaceWith(...node.childNodes);
+        return;
+      }
+      [...node.attributes].forEach((attribute) => {
+        const keep =
+          (node.tagName === 'A' && attribute.name === 'href' && /^https?:/i.test(attribute.value)) ||
+          (node.tagName === 'IFRAME' && attribute.name === 'src' && /^https:\/\/(www\.)?(youtube(-nocookie)?\.com|player\.vimeo\.com)\//.test(attribute.value));
+        if (!keep) node.removeAttribute(attribute.name);
+      });
+      if (node.tagName === 'A') {
+        node.setAttribute('target', '_blank');
+        node.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
+    return template.innerHTML;
+  };
+
+  const open = (details: ContentDetails) => {
+    if (!modal) return;
+    const fallbackTitle = details.type === 'proposal' ? 'Proposta' : 'Matéria';
+    const title = details.title || fallbackTitle;
+
+    field('category')!.textContent = details.category || fallbackTitle;
+    field('title')!.textContent = title;
+    field('subtitle')!.textContent = details.subtitle;
+    const content = field('content')!;
+    content.innerHTML = sanitize(details.content);
+    content.hidden = !details.content;
+
+    const image = field<HTMLImageElement>('image')!;
+    if (details.image) {
+      image.src = details.image;
+      image.alt = title;
+      image.hidden = false;
+    } else {
+      image.removeAttribute('src');
+      image.hidden = true;
+    }
+
+    field('share-title')!.textContent = details.type === 'proposal' ? 'Compartilhe esta proposta' : 'Compartilhe esta matéria';
+    updateShareButtons(modal, { url: details.shareUrl, title, subtitle: details.subtitle });
+
+    openModal(modal);
+    modal.querySelector('.modal-panel')?.scrollTo({ top: 0 });
+  };
+
+  window.addEventListener(OPEN_CONTENT_EVENT, (event) => open((event as CustomEvent<ContentDetails>).detail));
+</script>

@@ -1,0 +1,62 @@
+---
+import { entryPopup } from '../../config/site';
+import { ArrowRight } from '@lucide/astro';
+import CloseButton from '../ui/CloseButton.astro';
+import Modal from '../ui/Modal.astro';
+---
+
+{
+  entryPopup.enabled && (
+    <Modal id="entry-popup" class="entry-popup" closeLabel="Fechar pop-up">
+      <div slot="header">
+        <h2 id="entry-popup-title" class="sr-only">
+          Informação importante
+        </h2>
+        <CloseButton label="Fechar pop-up" data-modal-close />
+      </div>
+      <img class="entry-popup-image" src={entryPopup.image} alt="" loading="lazy" />
+      <div class="p-4 sm:px-5 sm:pb-5">
+        <a
+          class="btn-green inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 font-extrabold"
+          href={entryPopup.cta.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {entryPopup.cta.label}
+          <ArrowRight size={18} />
+        </a>
+      </div>
+    </Modal>
+  )
+}
+
+<script>
+  import { whenConsentResolved } from '../../lib/consent';
+  import { getModal, openModal } from '../../lib/modal';
+
+  const STORAGE_KEY = 'site-entry-popup-seen-v1';
+  const popup = getModal('entry-popup');
+
+  const alreadySeen = () => {
+    try {
+      return window.sessionStorage.getItem(STORAGE_KEY) === '1';
+    } catch {
+      return false;
+    }
+  };
+
+  if (popup && !alreadySeen()) {
+    window.setTimeout(() => {
+      whenConsentResolved(() => {
+        // Não interrompe o visitante se outro modal já estiver aberto.
+        if (document.querySelector('dialog.modal[open]')) return;
+        openModal(popup);
+        try {
+          window.sessionStorage.setItem(STORAGE_KEY, '1');
+        } catch {
+          // Sem sessionStorage o pop-up apenas voltará a aparecer.
+        }
+      });
+    }, 700);
+  }
+</script>

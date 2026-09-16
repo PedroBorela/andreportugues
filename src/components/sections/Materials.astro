@@ -1,0 +1,88 @@
+---
+import { ArrowDown, Download } from '@lucide/astro';
+import { REMOTE_MEDIA_BASE } from '../../config/site';
+import { materials } from '../../data/materials';
+import { stickerPreviewCount, stickers } from '../../data/stickers';
+import CloseButton from '../ui/CloseButton.astro';
+import Modal from '../ui/Modal.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const background = `${REMOTE_MEDIA_BASE}assets/news-1.jpg`;
+const previewStickers = stickers.slice(0, stickerPreviewCount);
+const stickerFileName = (index: number) => `figurinha-${String(index + 1).padStart(2, '0')}`;
+---
+
+<section id="materiais" class="materials-bg relative overflow-hidden py-20 text-white md:py-24" style={`--materials-image: url('${background}')`}>
+  <div class="absolute inset-0 bg-brand-blue/20"></div>
+  <div class="relative mx-auto max-w-7xl px-6 md:px-8">
+    <SectionHeading class="reveal mb-10 max-w-3xl" tone="light" eyebrow="CENTRAL DE MATERIAIS" title="Baixe materiais de campanha.">
+      <p class="mt-5 max-w-2xl leading-relaxed text-white/80">
+        Escolha o material que você precisa para divulgar a mensagem do Marcelo Crivella em sua comunidade, nas redes sociais e nos grupos de
+        WhatsApp.
+      </p>
+    </SectionHeading>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        materials.map((material, index) => (
+          <article class="material-card reveal rounded-2xl border p-6">
+            <span class="material-card-number text-3xl font-extrabold">{String(index + 1).padStart(2, '0')}</span>
+            <h3 class="mt-6 text-xl font-extrabold">{material.title}</h3>
+            <p class="material-card-text mt-3 min-h-16 text-sm leading-relaxed">{material.description}</p>
+            <a class="material-card-link mt-6 inline-flex items-center gap-2 font-extrabold" href={material.url} download={material.fileName}>
+              {material.label} <Download size={18} stroke-width={2.5} />
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <div id="figurinhas" class="reveal mt-16 border-t border-white/20 pt-12">
+      <p class="mb-3 text-sm font-extrabold uppercase tracking-eyebrow text-brand-yellow">PARA WHATSAPP</p>
+      <h3 class="text-3xl font-extrabold md:text-4xl">Figurinhas oficiais</h3>
+      <p class="mt-3 text-white/75">Baixe uma por uma e envie para sua galera.</p>
+
+      <div class="sticker-grid mt-8">
+        {
+          previewStickers.map((sticker, index) => (
+            <a class="sticker-card" href={sticker.image} download={stickerFileName(index)} aria-label={`Baixar ${sticker.title}`}>
+              <img src={sticker.image} alt={sticker.title} loading="lazy" />
+            </a>
+          ))
+        }
+      </div>
+
+      {
+        stickers.length > previewStickers.length && (
+          <button type="button" class="sticker-open-all mt-8" data-modal-open="sticker-modal">
+            VER TODAS AS FIGURINHAS <ArrowDown size={16} stroke-width={2.5} />
+          </button>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<Modal id="sticker-modal" size="xl" class="sticker-modal" closeLabel="Fechar figurinhas">
+  <div slot="header" class="mb-5 flex items-start justify-between gap-4">
+    <h2 id="sticker-modal-title" class="text-2xl font-extrabold">Figurinhas oficiais</h2>
+    <CloseButton label="Fechar figurinhas" data-modal-close />
+  </div>
+  <div class="sticker-modal-grid">
+    {
+      stickers.map((sticker, index) => (
+        <a class="sticker-modal-item" href={sticker.image} download={stickerFileName(index)} aria-label={`Baixar ${sticker.title}`}>
+          <img src={sticker.image} alt={sticker.title} loading="lazy" />
+          <span>Baixar {String(index + 1).padStart(2, '0')}</span>
+        </a>
+      ))
+    }
+  </div>
+</Modal>
+
+<script>
+  import { bindModalTriggers } from '../../lib/modal';
+
+  const section = document.getElementById('materiais');
+  if (section) bindModalTriggers(section);
+</script>

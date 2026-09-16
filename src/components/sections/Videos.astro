@@ -1,0 +1,189 @@
+---
+import { ArrowRight, Play } from '@lucide/astro';
+import { videos } from '../../data/videos';
+import CloseButton from '../ui/CloseButton.astro';
+import Modal from '../ui/Modal.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import ShareButtons from '../ui/ShareButtons.astro';
+
+const featured = videos.find((video) => video.featured) ?? videos[0];
+const sideVideos = videos.filter((video) => video !== featured).slice(0, 4);
+---
+
+<section id="videos" class="video-showcase-section relative overflow-hidden py-20 text-white md:py-24">
+  <div class="video-pattern" aria-hidden="true">
+    {Array.from({ length: 8 }, () => <span><Play fill="currentColor" stroke-width={0} /></span>)}
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-6 md:px-8">
+    <div class="reveal mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <SectionHeading class="max-w-3xl" tone="light" eyebrow="GALERIA DE VÍDEOS" title="Cobertura em Vídeo">
+        <p class="mt-4 max-w-2xl leading-relaxed text-white/80">Acompanhe as atividades, entrevistas e momentos marcantes do nosso mandato em vídeo.</p>
+      </SectionHeading>
+      <button type="button" data-modal-open="video-list-modal" class="btn-video-outline inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3 text-sm">
+        Assistir mais vídeos <ArrowRight size={18} stroke-width={2.5} />
+      </button>
+    </div>
+
+    <div class="video-showcase-grid">
+      {
+        featured && (
+          <article class="video-featured-card reveal">
+            <div class="video-featured-titlebar">
+              <span class="video-featured-title-label">DESTAQUE</span>
+              <h3 class="line-clamp">{featured.title}</h3>
+            </div>
+            <button type="button" class="video-cover" data-video-id={featured.id} aria-label={`Assistir ${featured.title}`}>
+              <img src={featured.thumbnail} alt="" loading="lazy" />
+              <span class="video-play-icon" aria-hidden="true">
+                <Play fill="currentColor" stroke-width={0} />
+              </span>
+            </button>
+            <div class="video-featured-copy">
+              <p class="line-clamp" style="--lines: 3">
+                {featured.description}
+              </p>
+              <button type="button" class="btn-video-watch inline-flex items-center gap-2" data-video-id={featured.id}>
+                Assistir vídeo <ArrowRight size={18} stroke-width={2.5} />
+              </button>
+            </div>
+          </article>
+        )
+      }
+
+      <div class="video-side-list">
+        {
+          sideVideos.map((video) => (
+            <article class="video-side-card reveal">
+              <button type="button" class="video-cover" data-video-id={video.id} aria-label={`Assistir ${video.title}`}>
+                <img src={video.thumbnail} alt="" loading="lazy" />
+                <span class="video-play-icon video-play-icon-small" aria-hidden="true">
+                <Play fill="currentColor" stroke-width={0} />
+              </span>
+              </button>
+              <div>
+                <h3 class="line-clamp">{video.title}</h3>
+                <p class="line-clamp" style="--lines: 3">
+                  {video.description}
+                </p>
+                <button type="button" class="btn-video-watch inline-flex items-center gap-1.5" data-video-id={video.id}>
+                  Assistir <ArrowRight size={14} stroke-width={2.5} />
+                </button>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<Modal id="video-list-modal" class="video-dialog" closeLabel="Fechar lista de vídeos">
+  <div slot="header" class="video-dialog-header">
+    <div>
+      <p class="video-label">CONTEÚDO EM VÍDEO</p>
+      <h2 id="video-list-modal-title">Todos os vídeos</h2>
+    </div>
+    <CloseButton label="Fechar lista de vídeos" data-modal-close />
+  </div>
+  <div class="video-public-list">
+    {
+      videos.map((video) => (
+        <button type="button" class="video-public-list-item" data-video-id={video.id}>
+          <span class="video-public-list-thumb">
+            <img src={video.thumbnail} alt="" loading="lazy" />
+            <span class="video-play-icon video-play-icon-small" aria-hidden="true">
+                <Play fill="currentColor" stroke-width={0} />
+              </span>
+          </span>
+          <span>
+            <strong class="line-clamp">{video.title}</strong>
+            <small class="line-clamp" style="--lines: 3">
+              {video.description}
+            </small>
+          </span>
+        </button>
+      ))
+    }
+  </div>
+</Modal>
+
+<Modal id="video-watch-modal" class="video-dialog" closeLabel="Fechar vídeo">
+  <div slot="header" class="video-dialog-header">
+    <div>
+      <p class="video-label">ASSISTA AGORA</p>
+      <h2 id="video-watch-modal-title" data-video-title>Vídeo</h2>
+    </div>
+    <CloseButton label="Fechar vídeo" data-modal-close />
+  </div>
+  <div class="video-player-shell">
+    <iframe data-video-iframe title="Player de vídeo" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen hidden></iframe>
+    <video data-video-player controls playsinline hidden></video>
+  </div>
+  <div class="video-watch-copy">
+    <p class="video-panel-label text-brand-green">Descrição</p>
+    <p class="video-watch-description" data-video-description></p>
+  </div>
+  <div class="video-share-panel">
+    <p class="video-panel-label text-ink">Compartilhe este vídeo</p>
+    <ShareButtons />
+  </div>
+</Modal>
+
+<script>
+  import { videos } from '../../data/videos';
+  import { bindModalTriggers, getModal, openModal } from '../../lib/modal';
+  import { updateShareButtons } from '../../lib/share';
+  import type { Video } from '../../lib/types';
+
+  const watchModal = getModal('video-watch-modal');
+  const iframe = watchModal?.querySelector<HTMLIFrameElement>('[data-video-iframe]');
+  const player = watchModal?.querySelector<HTMLVideoElement>('[data-video-player]');
+  const title = watchModal?.querySelector('[data-video-title]');
+  const description = watchModal?.querySelector('[data-video-description]');
+
+  const stopPlayback = () => {
+    if (player) {
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
+      player.hidden = true;
+    }
+    if (iframe) {
+      iframe.src = 'about:blank';
+      iframe.hidden = true;
+    }
+  };
+
+  const watch = (video: Video) => {
+    stopPlayback();
+    if (title) title.textContent = video.title || 'Vídeo';
+    if (description) description.textContent = video.description;
+
+    if (video.embedUrl && iframe) {
+      const url = new URL(video.embedUrl);
+      url.searchParams.set('autoplay', '1');
+      iframe.src = url.href;
+      iframe.hidden = false;
+    } else if (video.videoUrl && player) {
+      player.src = video.videoUrl;
+      player.hidden = false;
+      player.play().catch(() => {});
+    }
+
+    if (watchModal) updateShareButtons(watchModal, { url: video.shareUrl, title: video.title, subtitle: video.description });
+    openModal(watchModal);
+  };
+
+  watchModal?.addEventListener('close', stopPlayback);
+
+  document.querySelectorAll<HTMLButtonElement>('[data-video-id]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const video = videos.find((item) => item.id === Number(button.dataset.videoId));
+      if (video) watch(video);
+    });
+  });
+
+  const section = document.getElementById('videos');
+  if (section) bindModalTriggers(section);
+</script>

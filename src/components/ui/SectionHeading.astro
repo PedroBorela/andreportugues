@@ -1,0 +1,28 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  /** Cor do marcador e do texto do eyebrow. */
+  tone?: 'light' | 'dark';
+  markerClass?: string;
+  class?: string;
+  titleClass?: string;
+}
+
+const { eyebrow, title, tone = 'dark', markerClass, class: className, titleClass } = Astro.props;
+const onDark = tone === 'light';
+---
+
+<div class={className}>
+  <p
+    class:list={[
+      'mb-3 flex items-center gap-3 text-sm font-extrabold uppercase tracking-eyebrow',
+      onDark ? 'text-brand-yellow' : 'text-ink',
+    ]}
+  >
+    <span class:list={['inline-block h-1 w-8', markerClass ?? (onDark ? 'bg-brand-yellow' : 'bg-brand-green')]}></span>
+    {eyebrow}
+  </p>
+  <h2 class:list={['text-4xl font-extrabold md:text-5xl', onDark ? 'text-white' : 'text-brand-blue', titleClass]}>{title}</h2>
+  <slot />
+</div>

@@ -1,0 +1,323 @@
+@layer components {
+  /* Modais construídos sobre <dialog> nativo: foco, Esc e camada superior vêm do navegador. */
+  .modal {
+    width: min(var(--modal-width, 42rem), calc(100% - 2.5rem));
+    max-width: none;
+    max-height: calc(100dvh - 2.5rem);
+    margin: auto;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .modal::backdrop {
+    background: rgb(20 67 203 / 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal[open] {
+    animation: modal-fade 0.2s ease;
+  }
+
+  .modal[open] .modal-panel {
+    animation: modal-rise 0.2s ease;
+  }
+
+  @keyframes modal-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes modal-rise {
+    from {
+      transform: translateY(14px) scale(0.98);
+    }
+  }
+
+  .modal-panel {
+    max-height: calc(100dvh - 2.5rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1.75rem;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  }
+
+  .modal-sm {
+    --modal-width: 35rem;
+  }
+
+  .modal-lg {
+    --modal-width: 48rem;
+  }
+
+  .modal-xl {
+    --modal-width: 56rem;
+  }
+
+  .modal-close {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--blue);
+    border-radius: 9px;
+    background: var(--blue);
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .modal-close:hover,
+  .modal-close:focus-visible {
+    box-shadow: 0 8px 18px rgb(20 67 203 / 0.22);
+    transform: translateY(-2px);
+  }
+
+  .modal-close:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 2px;
+  }
+
+  .modal-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 70vh;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  .pager-button {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-surface px-3 py-2 text-sm font-bold text-ink disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .list-item {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    align-items: center;
+    gap: 1rem;
+    overflow: hidden;
+    padding: 0.75rem;
+    border: 1px solid var(--surface);
+    border-radius: 0.75rem;
+    background: #fff;
+    text-align: left;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .list-item:hover,
+  .list-item:focus-visible {
+    border-color: var(--green);
+    background: var(--surface);
+  }
+
+  .list-item > * {
+    min-width: 0;
+  }
+
+  .list-item :is(strong, span) {
+    overflow-wrap: anywhere;
+  }
+
+  .agenda-detail-label {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Galeria ---------- */
+  .gallery-viewer {
+    position: relative;
+    display: flex;
+    min-height: clamp(260px, 52vw, 560px);
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 18px;
+    background: var(--blue);
+  }
+
+  .gallery-viewer img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 560px;
+    object-fit: contain;
+  }
+
+  .gallery-arrow {
+    position: absolute;
+    z-index: 1;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 0.7);
+    border-radius: 50%;
+    background: rgb(20 67 203 / 0.8);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .gallery-arrow:hover,
+  .gallery-arrow:focus-visible {
+    background: var(--green);
+  }
+
+  .gallery-arrow:disabled {
+    display: none;
+  }
+
+  .gallery-list-item img {
+    width: 112px;
+    height: 82px;
+    flex: 0 0 112px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  /* ---------- Figurinhas ---------- */
+  .sticker-modal .modal-panel {
+    border: 1px solid rgb(255 255 255 / 0.2);
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .sticker-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .sticker-modal-item {
+    display: grid;
+    min-width: 0;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid rgb(255 255 255 / 0.22);
+    border-radius: 12px;
+    background: rgb(255 255 255 / 0.06);
+    color: #fff;
+    text-align: center;
+  }
+
+  .sticker-modal-item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+
+  .sticker-modal-item span {
+    overflow: hidden;
+    font-size: 11px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sticker-modal-item:hover,
+  .sticker-modal-item:focus-visible {
+    border-color: var(--yellow);
+    background: rgb(255 196 0 / 0.12);
+  }
+
+  .sticker-modal .modal-close {
+    border-color: rgb(255 255 255 / 0.45);
+    background: transparent;
+  }
+
+  .sticker-modal .modal-close:hover,
+  .sticker-modal .modal-close:focus-visible {
+    border-color: var(--yellow);
+    background: var(--yellow);
+    color: var(--blue);
+  }
+
+  /* ---------- Pop-up de entrada ---------- */
+  .entry-popup {
+    --modal-width: 900px;
+  }
+
+  .entry-popup .modal-panel {
+    position: relative;
+    padding: 0;
+    border: 1px solid var(--surface);
+    border-radius: 20px;
+  }
+
+  .entry-popup-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100dvh - 124px);
+    margin: 0 auto;
+    object-fit: contain;
+  }
+
+  .entry-popup .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+  }
+
+  @media (max-width: 640px) {
+    .modal {
+      width: calc(100% - 1.5rem);
+    }
+
+    .modal-panel {
+      max-height: calc(100dvh - 1.5rem);
+      padding: 1.25rem;
+    }
+
+    .modal-close {
+      width: 44px;
+      height: 44px;
+      flex-basis: 44px;
+    }
+
+    .list-item {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .list-item img {
+      width: 100%;
+      height: 150px;
+      flex-basis: auto;
+    }
+
+    .modal-pager {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .gallery-viewer {
+      min-height: 260px;
+    }
+
+    .sticker-modal-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .entry-popup-image {
+      max-height: calc(100dvh - 112px);
+    }
+  }
+}
