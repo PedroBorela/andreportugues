@@ -1,5 +1,6 @@
 ---
 import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from '@lucide/astro';
+import { connectCopy } from '../../config/copy';
 import { instagramProfile } from '../../config/site';
 import { galleries } from '../../data/galleries';
 import { instagramPosts } from '../../data/instagram';
@@ -16,9 +17,9 @@ const previewPhotos = featuredGallery
   <div class="mx-auto max-w-7xl px-6 md:px-8">
     <div class="grid items-start gap-10 md:grid-cols-[1.12fr_.88fr]">
       <div class="reveal">
-        <SectionHeading eyebrow="PRESENÇA E CONEXÃO" title="Galeria de fotos">
+        <SectionHeading eyebrow={connectCopy.kicker} title={connectCopy.title}>
           <p class="mt-4 max-w-xl leading-relaxed text-ink">
-            Acompanhe os encontros, as conversas e os momentos que aproximam Marcelo Crivella das pessoas.
+            {connectCopy.subtitle}
           </p>
         </SectionHeading>
 
@@ -39,7 +40,7 @@ const previewPhotos = featuredGallery
             </div>
           )
         }
-        <button type="button" data-gallery-list-open class="btn-green mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 font-extrabold">Veja mais <ArrowRight size={18} stroke-width={2.5} /></button>
+        <button type="button" data-gallery-list-open class="btn-navy mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 font-extrabold">Veja mais <ArrowRight size={18} stroke-width={2.5} /></button>
       </div>
 
       <div class="reveal rounded-3xl bg-white p-6 shadow-xl md:p-7">
@@ -48,11 +49,11 @@ const previewPhotos = featuredGallery
             <img src="/assets/social-instagram.webp" alt="" class="h-6 w-6 invert" />
           </div>
           <div>
-            <p class="text-xs font-extrabold uppercase tracking-wider text-brand-green">Siga o canal oficial</p>
-            <h2 class="text-2xl font-extrabold text-brand-blue">Acompanhe o Instagram oficial</h2>
+            <p class="text-xs font-extrabold uppercase tracking-wider text-brand-navy">{connectCopy.instagramKicker}</p>
+            <h2 class="text-2xl font-extrabold text-brand-blue">{connectCopy.instagramTitle}</h2>
           </div>
         </div>
-        <p class="mt-5 leading-relaxed text-ink">Informação, agendas e encontros em um canal direto com você.</p>
+        <p class="mt-5 leading-relaxed text-ink">{connectCopy.instagramText}</p>
         <div class="mt-6 grid grid-cols-2 gap-3">
           {
             instagramPosts.map((post, index) => (
@@ -93,7 +94,7 @@ const previewPhotos = featuredGallery
   </div>
 </Modal>
 
-<Modal id="gallery-list-modal" size="lg" eyebrow="PRESENÇA E CONEXÃO" title="Galerias de fotos" closeLabel="Fechar lista de galerias">
+<Modal id="gallery-list-modal" size="lg" eyebrow={connectCopy.kicker} title="Galerias de fotos" closeLabel="Fechar lista de galerias">
   <div data-list-items class="mt-5 grid gap-3"></div>
   <div class="modal-pager mt-6 flex items-center justify-between gap-4 border-t border-surface pt-5">
     <span data-list-label class="text-sm text-ink"></span>

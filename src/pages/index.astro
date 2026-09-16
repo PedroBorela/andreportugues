@@ -7,13 +7,16 @@ import CookieConsent from '../components/overlays/CookieConsent.astro';
 import EntryPopup from '../components/overlays/EntryPopup.astro';
 import FloatingActions from '../components/overlays/FloatingActions.astro';
 import JinglePlayer from '../components/overlays/JinglePlayer.astro';
+import About from '../components/sections/About.astro';
 import Agenda from '../components/sections/Agenda.astro';
+import CaseStudy from '../components/sections/CaseStudy.astro';
 import Connect from '../components/sections/Connect.astro';
 import Hero from '../components/sections/Hero.astro';
 import Materials from '../components/sections/Materials.astro';
 import News from '../components/sections/News.astro';
 import Newsletter from '../components/sections/Newsletter.astro';
 import Proposals from '../components/sections/Proposals.astro';
+import Ticket from '../components/sections/Ticket.astro';
 import Videos from '../components/sections/Videos.astro';
 import WhatsAppCommunity from '../components/sections/WhatsAppCommunity.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -26,11 +29,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <main>
     <Proposals />
+    <CaseStudy />
+    <About />
     <News />
     <Agenda />
-    <Materials />
     <Videos />
+    <Materials />
     <Connect />
+    <Ticket />
     <WhatsAppCommunity />
     <Newsletter />
   </main>

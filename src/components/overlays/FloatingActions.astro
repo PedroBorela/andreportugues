@@ -3,16 +3,20 @@ import { ArrowUp } from '@lucide/astro';
 import { whatsapp } from '../../config/site';
 ---
 
+{
+  whatsapp.communityUrl && (
 <a
   href={whatsapp.communityUrl}
   target="_blank"
   rel="noopener noreferrer"
-  class="whatsapp-float tooltip-host fixed bottom-6 left-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-brand-green text-white shadow-xl"
-  aria-label="Entre na comunidade do Crivella pelo WhatsApp"
+  class="whatsapp-float tooltip-host fixed bottom-6 left-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-brand-navy text-white shadow-xl"
+  aria-label={whatsapp.tooltip}
 >
   <img src={whatsapp.communityIcon} alt="" class="h-6 w-6 brightness-0 invert" />
   <span class="whatsapp-tooltip" aria-hidden="true">{whatsapp.tooltip}</span>
 </a>
+  )
+}
 
 <button
   id="back-to-top"

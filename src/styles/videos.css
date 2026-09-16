@@ -1,6 +1,6 @@
 @layer components {
   .video-showcase-section {
-    background: var(--green);
+    background: var(--navy);
   }
 
   .video-pattern {
@@ -42,8 +42,8 @@
     overflow: hidden;
     border: 1px solid rgb(255 255 255 / 0.25);
     border-radius: 20px;
-    background: rgb(0 165 81 / 0.48);
-    box-shadow: 0 16px 35px rgb(0 165 81 / 0.2);
+    background: rgb(0 27 74 / 0.48);
+    box-shadow: 0 16px 35px rgb(0 27 74 / 0.2);
     backdrop-filter: blur(4px);
   }
 
@@ -81,14 +81,14 @@
     padding-left: 3px;
     border: 2px solid rgb(255 255 255 / 0.9);
     border-radius: 50%;
-    background: rgb(0 165 81 / 0.6);
+    background: rgb(0 27 74 / 0.6);
     color: #fff;
     transform: translate(-50%, -50%);
     transition: transform 0.25s ease, background 0.25s ease;
   }
 
   .video-cover:hover .video-play-icon {
-    background: var(--green);
+    background: var(--navy);
     transform: translate(-50%, -50%) scale(1.08);
   }
 
@@ -180,7 +180,7 @@
     border-color: var(--yellow);
     background: var(--yellow);
     color: var(--blue);
-    box-shadow: 0 10px 25px rgb(255 196 0 / 0.22);
+    box-shadow: 0 10px 25px rgb(251 204 13 / 0.22);
     transform: translateY(-2px);
   }
 
@@ -262,7 +262,7 @@
     flex: 0 1 auto;
     aspect-ratio: 16 / 9;
     max-height: calc(100dvh - 190px);
-    background: var(--green);
+    background: var(--navy);
   }
 
   .video-player-shell :is(iframe, video) {
@@ -319,7 +319,7 @@
   }
 
   .video-public-list-item:is(:hover, :focus-visible) {
-    border-color: var(--green);
+    border-color: var(--navy);
     transform: translateY(-2px);
   }
 
@@ -392,5 +392,28 @@
       grid-template-columns: 110px minmax(0, 1fr);
       gap: 10px;
     }
+  }
+}
+
+@layer components {
+  /* Reels do Instagram: player vertical centralizado. */
+  .video-player-shell.is-vertical {
+    display: flex;
+    aspect-ratio: auto;
+    height: min(720px, calc(100dvh - 190px));
+    max-height: none;
+    justify-content: center;
+    background: var(--navy);
+  }
+
+  .video-player-shell.is-vertical iframe {
+    width: min(100%, 400px);
+    background: #fff;
+  }
+}
+
+@layer components {
+  .video-player-shell :is(iframe, video)[hidden] {
+    display: none;
   }
 }

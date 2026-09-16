@@ -1,20 +1,26 @@
 ---
 import { ArrowLeft, ArrowRight } from '@lucide/astro';
+import { proposalsCopy } from '../../config/copy';
 import { proposals } from '../../data/proposals';
 import type { BrandColor } from '../../lib/types';
 import SectionHeading from '../ui/SectionHeading.astro';
 
-const hex: Record<BrandColor, string> = { blue: '#1443cb', green: '#00a551', yellow: '#ffc400' };
+const hex: Record<BrandColor, string> = { blue: '#205dc7', navy: '#001b4a', yellow: '#fbcc0d' };
 
-const cardStyle = (color: BrandColor, image: string) =>
-  `background-color:${hex[color]};background-image:linear-gradient(135deg, ${hex[color]}e6 0%, ${hex[color]}b3 100%), url('${image}');`;
+const cardStyle = (color: BrandColor, image?: string) => {
+  const overlay = `linear-gradient(135deg, ${hex[color]}f2 0%, ${hex[color]}c7 100%)`;
+  return `background-color:${hex[color]};background-image:${image ? `${overlay}, url('${image}')` : overlay};`;
+};
+
+// No amarelo, texto em marinho para manter o contraste.
+const onYellow = (color: BrandColor) => color === 'yellow';
 ---
 
 <section id="propostas" class="overflow-hidden bg-surface py-20 md:py-24">
   <div class="mx-auto max-w-7xl px-6 md:px-8">
     <div class="reveal mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-      <SectionHeading eyebrow="PRIORIDADES" title="As Principais Bandeiras" />
-      <p class="max-w-md text-sm leading-relaxed text-ink">Um compromisso com as pessoas e com o futuro do Rio de Janeiro</p>
+      <SectionHeading eyebrow={proposalsCopy.kicker} title={proposalsCopy.title} />
+      <p class="max-w-md text-sm leading-relaxed text-ink">{proposalsCopy.subtitle}</p>
     </div>
 
     <div class="relative">
@@ -22,19 +28,22 @@ const cardStyle = (color: BrandColor, image: string) =>
         {
           proposals.map((proposal, index) => (
             <article
-              class="carousel-card reveal relative min-w-[85vw] overflow-hidden rounded-2xl bg-cover bg-center p-8 text-white shadow-lg md:min-w-[560px] md:p-10"
+              class:list={[
+                'carousel-card reveal relative min-w-[85vw] overflow-hidden rounded-2xl bg-cover bg-center p-8 shadow-lg md:min-w-[560px] md:p-10',
+                onYellow(proposal.color) ? 'text-brand-navy' : 'text-white',
+              ]}
               style={cardStyle(proposal.color, proposal.image)}
             >
               <div class:list={['absolute', proposal.decoration]} aria-hidden="true" />
-              <span class="relative text-sm font-extrabold tracking-widest text-white">{proposal.category}</span>
-              <h3 class="relative mt-3 text-4xl font-extrabold">{proposal.title}</h3>
-              <p class="relative mt-4 max-w-md leading-relaxed text-white/85">{proposal.summary}</p>
+              <span class="relative text-sm font-extrabold uppercase tracking-widest">{proposal.category}</span>
+              <h3 class="relative mt-3 text-4xl font-extrabold uppercase md:text-5xl">{proposal.title}</h3>
+              <p class="relative mt-4 max-w-md leading-relaxed opacity-90">{proposal.summary}</p>
               <button
                 type="button"
-                class="relative mt-8 inline-flex items-center gap-2 rounded-full border-2 border-white px-5 py-2 font-bold text-white transition hover:border-brand-blue hover:bg-brand-blue"
+                class="relative mt-8 inline-flex items-center gap-2 rounded-full border-2 border-current px-5 py-2 font-bold transition hover:border-brand-navy hover:bg-brand-navy hover:text-white"
                 data-proposal-index={index}
               >
-                Conhecer Mais Sobre <ArrowRight size={18} stroke-width={2.5} />
+                Saiba mais <ArrowRight size={18} stroke-width={2.5} />
               </button>
             </article>
           ))
@@ -47,7 +56,7 @@ const cardStyle = (color: BrandColor, image: string) =>
             proposals.map((_, index) => (
               <button
                 type="button"
-                class:list={['carousel-dot h-2.5 rounded-full transition-all', index === 0 ? 'w-8 bg-brand-green' : 'w-2.5 bg-ink/25']}
+                class:list={['carousel-dot h-2.5 rounded-full transition-all', index === 0 ? 'w-8 bg-brand-navy' : 'w-2.5 bg-ink/25']}
                 data-index={index}
                 aria-label={`Mostrar proposta ${index + 1}`}
                 aria-current={index === 0 ? 'true' : undefined}
@@ -56,8 +65,8 @@ const cardStyle = (color: BrandColor, image: string) =>
           }
         </div>
         <div class="hidden gap-2 md:flex">
-          <button type="button" data-carousel-step="-1" class="rounded-full bg-brand-blue px-4 py-2 text-white transition hover:bg-brand-green" aria-label="Proposta anterior"><ArrowLeft size={18} stroke-width={2.5} /></button>
-          <button type="button" data-carousel-step="1" class="rounded-full bg-brand-blue px-4 py-2 text-white transition hover:bg-brand-green" aria-label="Próxima proposta"><ArrowRight size={18} stroke-width={2.5} /></button>
+          <button type="button" data-carousel-step="-1" class="rounded-full bg-brand-blue px-4 py-2 text-white transition hover:bg-brand-navy" aria-label="Proposta anterior"><ArrowLeft size={18} stroke-width={2.5} /></button>
+          <button type="button" data-carousel-step="1" class="rounded-full bg-brand-blue px-4 py-2 text-white transition hover:bg-brand-navy" aria-label="Próxima proposta"><ArrowRight size={18} stroke-width={2.5} /></button>
         </div>
       </div>
     </div>
@@ -65,7 +74,8 @@ const cardStyle = (color: BrandColor, image: string) =>
 </section>
 
 <script>
-  import { proposals } from '../../data/proposals';
+  import { proposalsCopy } from '../../config/copy';
+import { proposals } from '../../data/proposals';
   import { proposalToDetails, requestContentModal } from '../../lib/content';
 
   const track = document.getElementById('proposal-track');
@@ -77,7 +87,7 @@ const cardStyle = (color: BrandColor, image: string) =>
     dots.forEach((dot, dotIndex) => {
       const active = dotIndex === index;
       dot.classList.toggle('w-8', active);
-      dot.classList.toggle('bg-brand-green', active);
+      dot.classList.toggle('bg-brand-navy', active);
       dot.classList.toggle('w-2.5', !active);
       dot.classList.toggle('bg-ink/25', !active);
       if (active) dot.setAttribute('aria-current', 'true');

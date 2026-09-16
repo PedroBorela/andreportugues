@@ -70,7 +70,7 @@
     background: #fff;
   }
 
-  body.accessibility-reading-mode :is(.hero-bg, .video-showcase-section) {
+  body.accessibility-reading-mode :is(#inicio, #case, .video-showcase-section) {
     background: #fff !important;
     color: var(--ink) !important;
   }
@@ -98,14 +98,14 @@
     border-radius: 18px;
     background: var(--blue);
     color: #fff;
-    box-shadow: 0 12px 28px rgb(20 67 203 / 0.28);
+    box-shadow: 0 12px 28px rgb(32 93 199 / 0.28);
     font-size: 13px;
     font-weight: 800;
     cursor: pointer;
   }
 
   .accessibility-launcher.is-vlibras {
-    background: var(--green);
+    background: var(--navy);
   }
 
   .accessibility-launcher:hover,
@@ -142,7 +142,7 @@
     height: 100dvh;
     flex-direction: column;
     overflow: hidden;
-    border-left: 4px solid var(--green);
+    border-left: 4px solid var(--navy);
     background: #f8fafc;
     color: var(--ink);
     box-shadow: -18px 0 45px rgb(15 23 42 / 0.25);
@@ -168,7 +168,7 @@
 
   .accessibility-eyebrow {
     margin: 0 0 4px;
-    color: var(--green);
+    color: var(--navy);
     font-size: 11px;
     font-weight: 900;
     letter-spacing: 0.16em;
@@ -264,7 +264,7 @@
   .accessibility-option.is-active {
     border-color: var(--blue);
     background: #eff6ff;
-    box-shadow: 0 0 0 2px rgb(20 67 203 / 0.1);
+    box-shadow: 0 0 0 2px rgb(32 93 199 / 0.1);
   }
 
   .accessibility-size-status {

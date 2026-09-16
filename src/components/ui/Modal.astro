@@ -30,7 +30,7 @@ const hasHeaderSlot = Astro.slots.has('header');
       ) : (
         <div class:list={['flex items-start justify-between gap-4', divider && 'border-b border-surface pb-5']}>
           <div class="min-w-0">
-            {eyebrow && <p class="text-xs font-extrabold uppercase tracking-[.16em] text-brand-green">{eyebrow}</p>}
+            {eyebrow && <p class="text-xs font-extrabold uppercase tracking-[.16em] text-brand-navy">{eyebrow}</p>}
             <h2 id={`${id}-title`} class="mt-2 break-words text-2xl font-extrabold text-brand-blue">
               {title}
             </h2>

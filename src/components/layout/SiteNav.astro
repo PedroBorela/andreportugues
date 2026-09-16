@@ -1,5 +1,6 @@
 ---
-import { donate, navigation, site } from '../../config/site';
+import { navHighlight, navigation } from '../../config/site';
+import Logo from '../ui/Logo.astro';
 import SocialLinks from '../ui/SocialLinks.astro';
 ---
 
@@ -9,20 +10,20 @@ import SocialLinks from '../ui/SocialLinks.astro';
   aria-label="Navegação principal"
 >
   <div class="mx-auto flex max-w-7xl items-center justify-between gap-6">
-    <a href="#inicio" class="shrink-0" aria-label="Marcelo Crivella, início">
-      <img src={site.logo} alt="Logo Marcelo Crivella" class="site-nav-logo w-auto object-contain" />
+    <a href="#inicio" class="shrink-0" aria-label="André Português 1080, início">
+      <Logo />
     </a>
 
-    <div class="hidden items-center gap-6 text-xs font-bold tracking-wide md:flex">
+    <div class="hidden items-center gap-5 text-sm font-bold tracking-wide lg:flex">
       {navigation.map((item) => <a class="nav-link" href={item.href}>{item.label}</a>)}
     </div>
 
     <div class="flex items-center gap-3">
-      <SocialLinks variant="nav" class="hidden md:flex" />
-      <a href={donate.href} class="btn-primary hidden rounded-full px-5 py-2 text-sm font-extrabold md:inline-flex">{donate.label}</a>
+      <SocialLinks variant="nav" class="hidden xl:flex" />
+      <a href={navHighlight.href} class="btn-primary hidden rounded-full px-5 py-2 text-sm font-extrabold uppercase lg:inline-flex">{navHighlight.label}</a>
       <button
         id="menu-toggle"
-        class="menu-toggle rounded-lg p-2 text-white transition hover:bg-white/10 md:hidden"
+        class="menu-toggle rounded-lg p-2 text-white transition hover:bg-white/10 lg:hidden"
         type="button"
         aria-label="Abrir menu"
         aria-expanded="false"
@@ -38,12 +39,12 @@ import SocialLinks from '../ui/SocialLinks.astro';
     </div>
   </div>
 
-  <div id="mobile-menu" class="mx-auto max-w-7xl border-t border-white/10 pt-4 md:hidden" hidden>
+  <div id="mobile-menu" class="mx-auto max-w-7xl border-t border-white/10 pt-4 lg:hidden" hidden>
     <div class="grid gap-1 text-sm font-bold">
       {navigation.map((item) => <a class="rounded-lg px-3 py-3 hover:bg-white/10" href={item.href}>{item.label}</a>)}
     </div>
-    <a href={donate.href} class="btn-primary mt-4 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-extrabold">
-      {donate.label}
+    <a href={navHighlight.href} class="btn-primary mt-4 uppercase inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-extrabold">
+      {navHighlight.label}
     </a>
     <SocialLinks variant="nav" class="mt-4 border-t border-white/10 pt-4" />
   </div>

@@ -8,19 +8,19 @@
 
   .btn-primary:hover,
   .btn-primary:focus-visible {
-    box-shadow: 0 12px 30px rgb(255 196 0 / 0.22);
+    box-shadow: 0 12px 30px rgb(251 204 13 / 0.22);
     transform: translateY(-2px);
   }
 
-  .btn-green {
-    background: var(--green);
+  .btn-navy {
+    background: var(--navy);
     color: #fff;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
 
-  .btn-green:hover,
-  .btn-green:focus-visible {
-    box-shadow: 0 12px 30px rgb(0 165 81 / 0.18);
+  .btn-navy:hover,
+  .btn-navy:focus-visible {
+    box-shadow: 0 12px 30px rgb(0 27 74 / 0.18);
     transform: translateY(-2px);
   }
 
@@ -29,16 +29,6 @@
   }
 
   /* ---------- Navegação ---------- */
-  .site-nav-logo {
-    height: 3.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .site-nav-logo {
-      height: 3.75rem;
-    }
-  }
-
   .nav-link {
     position: relative;
     transition: color 0.25s ease;
@@ -106,30 +96,6 @@
     display: block;
   }
 
-  /* ---------- Hero ---------- */
-  .hero-bg {
-    background-image:
-      linear-gradient(180deg, rgb(20 67 203 / 0.78) 0%, rgb(20 67 203 / 0.62) 42%, rgb(20 67 203 / 0.48) 100%),
-      var(--hero-image, none);
-    background-position: center bottom;
-    background-size: cover;
-  }
-
-  .hero-photo {
-    filter: drop-shadow(0 25px 24px rgb(0 0 0 / 0.22));
-    animation: float-photo 6s ease-in-out infinite;
-  }
-
-  @keyframes float-photo {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-9px);
-    }
-  }
-
   /* ---------- Tooltips do WhatsApp ---------- */
   .tooltip-host {
     position: relative;
@@ -143,7 +109,7 @@
     padding: 11px 14px;
     border: 1px solid rgb(255 255 255 / 0.3);
     border-radius: 12px;
-    background: rgb(0 165 81 / 0.97);
+    background: rgb(0 27 74 / 0.97);
     color: #fff;
     font-size: 13px;
     font-weight: 800;
@@ -205,7 +171,7 @@
   .whatsapp-float:hover,
   .whatsapp-float:focus-visible {
     transform: translateY(-4px);
-    box-shadow: 0 14px 28px rgb(0 165 81 / 0.28);
+    box-shadow: 0 14px 28px rgb(0 27 74 / 0.28);
   }
 
   .back-to-top {
@@ -266,7 +232,7 @@
   /* ---------- Materiais ---------- */
   .materials-bg {
     background-image:
-      linear-gradient(180deg, rgb(20 67 203 / 0.96) 0%, rgb(20 67 203 / 0.82) 56%, rgb(20 67 203 / 0.94) 100%),
+      linear-gradient(180deg, rgb(32 93 199 / 0.96) 0%, rgb(32 93 199 / 0.82) 56%, rgb(32 93 199 / 0.94) 100%),
       var(--materials-image, none);
     background-position: center;
     background-size: cover;

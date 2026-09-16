@@ -1,5 +1,6 @@
 ---
 import { ArrowRight, Play } from '@lucide/astro';
+import { videosCopy } from '../../config/copy';
 import { videos } from '../../data/videos';
 import CloseButton from '../ui/CloseButton.astro';
 import Modal from '../ui/Modal.astro';
@@ -17,8 +18,8 @@ const sideVideos = videos.filter((video) => video !== featured).slice(0, 4);
 
   <div class="relative mx-auto max-w-7xl px-6 md:px-8">
     <div class="reveal mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-      <SectionHeading class="max-w-3xl" tone="light" eyebrow="GALERIA DE VÍDEOS" title="Cobertura em Vídeo">
-        <p class="mt-4 max-w-2xl leading-relaxed text-white/80">Acompanhe as atividades, entrevistas e momentos marcantes do nosso mandato em vídeo.</p>
+      <SectionHeading class="max-w-3xl" tone="light" eyebrow={videosCopy.kicker} title={videosCopy.title}>
+        <p class="mt-4 max-w-2xl leading-relaxed text-white/80">{videosCopy.subtitle}</p>
       </SectionHeading>
       <button type="button" data-modal-open="video-list-modal" class="btn-video-outline inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3 text-sm">
         Assistir mais vídeos <ArrowRight size={18} stroke-width={2.5} />
@@ -116,12 +117,12 @@ const sideVideos = videos.filter((video) => video !== featured).slice(0, 4);
     </div>
     <CloseButton label="Fechar vídeo" data-modal-close />
   </div>
-  <div class="video-player-shell">
+  <div class="video-player-shell" data-video-shell>
     <iframe data-video-iframe title="Player de vídeo" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen hidden></iframe>
     <video data-video-player controls playsinline hidden></video>
   </div>
   <div class="video-watch-copy">
-    <p class="video-panel-label text-brand-green">Descrição</p>
+    <p class="video-panel-label text-brand-navy">Descrição</p>
     <p class="video-watch-description" data-video-description></p>
   </div>
   <div class="video-share-panel">
@@ -141,6 +142,7 @@ const sideVideos = videos.filter((video) => video !== featured).slice(0, 4);
   const player = watchModal?.querySelector<HTMLVideoElement>('[data-video-player]');
   const title = watchModal?.querySelector('[data-video-title]');
   const description = watchModal?.querySelector('[data-video-description]');
+  const shell = watchModal?.querySelector('[data-video-shell]');
 
   const stopPlayback = () => {
     if (player) {
@@ -159,10 +161,11 @@ const sideVideos = videos.filter((video) => video !== featured).slice(0, 4);
     stopPlayback();
     if (title) title.textContent = video.title || 'Vídeo';
     if (description) description.textContent = video.description;
+    shell?.classList.toggle('is-vertical', Boolean(video.vertical));
 
     if (video.embedUrl && iframe) {
       const url = new URL(video.embedUrl);
-      url.searchParams.set('autoplay', '1');
+      if (!url.hostname.includes('instagram')) url.searchParams.set('autoplay', '1');
       iframe.src = url.href;
       iframe.hidden = false;
     } else if (video.videoUrl && player) {

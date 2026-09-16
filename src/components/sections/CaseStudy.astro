@@ -1,0 +1,48 @@
+---
+import { CircleCheck, Quote } from '@lucide/astro';
+import { caseCopy } from '../../config/copy';
+import { caseHighlights, caseNumbers, caseQuote } from '../../data/case';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section id="case" class="relative overflow-hidden bg-brand-navy py-20 text-white md:py-24">
+  <div class="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-blue/40 blur-3xl" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-7xl px-6 md:px-8">
+    <SectionHeading class="reveal mb-12 max-w-3xl" tone="light" eyebrow={caseCopy.kicker} title={caseCopy.title}>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{caseCopy.subtitle}</p>
+    </SectionHeading>
+
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        caseNumbers.map((item) => (
+          <li class="reveal rounded-2xl border border-white/15 bg-white/5 p-6 transition hover:border-brand-yellow">
+            <p class="font-display text-5xl font-extrabold leading-none text-brand-yellow md:text-6xl">{item.value}</p>
+            <p class="mt-3 text-base font-semibold leading-snug text-white/80">{item.label}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-12 grid gap-8 lg:grid-cols-[1.1fr_.9fr]">
+      <div class="reveal">
+        <h3 class="mb-5 text-2xl font-extrabold uppercase text-white">{caseCopy.highlightsTitle}</h3>
+        <ul class="space-y-4">
+          {
+            caseHighlights.map((highlight) => (
+              <li class="flex gap-3 leading-relaxed text-white/85">
+                <CircleCheck class="mt-0.5 shrink-0 text-brand-yellow" size={22} />
+                <span>{highlight}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <figure class="reveal rounded-3xl bg-brand-yellow p-8 text-brand-navy">
+        <Quote size={36} stroke-width={2.5} />
+        <blockquote class="mt-4 font-display text-2xl font-bold italic leading-snug md:text-3xl">{caseQuote}</blockquote>
+        <figcaption class="mt-5 text-sm font-extrabold uppercase tracking-eyebrow">André Português</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>

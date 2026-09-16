@@ -16,7 +16,7 @@ export const proposalToDetails = (proposal: Proposal): ContentDetails => ({
   title: proposal.title,
   subtitle: proposal.summary,
   content: proposal.description,
-  image: proposal.image,
+  image: proposal.image ?? '',
   shareUrl: proposal.shareUrl,
 });
 

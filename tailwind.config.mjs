@@ -7,16 +7,17 @@ export default {
     extend: {
       colors: {
         brand: {
-          blue: '#1443cb',
-          'blue-dark': '#005eb8',
-          green: '#00a551',
-          yellow: '#ffc400',
+          blue: '#205DC7',
+          'blue-dark': '#174BA6',
+          navy: '#001B4A',
+          yellow: '#FBCC0D',
         },
-        surface: '#f3efe6',
-        ink: '#3a3f4b',
+        surface: '#F3F4F8',
+        ink: '#3A3F4B',
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Barlow', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Barlow Condensed"', 'Barlow', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         eyebrow: '.18em',

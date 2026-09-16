@@ -1,90 +1,95 @@
 /**
- * Configuração central do site. Textos, links e integrações editáveis ficam aqui;
- * o conteúdo dinâmico (notícias, vídeos, galerias etc.) fica em `src/data`.
+ * Configuração central do site: dados do candidato, links e integrações.
+ * Os textos das seções ficam em `src/config/copy.ts` e o conteúdo dinâmico em `src/data`.
+ * Itens marcados com CONFIRMAR dependem de validação do comitê (ver docs/briefing/BRIEFING.md).
  */
 
-/** Servidor onde estão os arquivos que não foram copiados para `public/` (vídeos, zips, jingles...). */
-export const REMOTE_MEDIA_BASE = 'https://www.marcelocrivella.org/campanha2026/';
+export const candidate = {
+  name: 'André Português',
+  fullName: 'Andre Pinto de Afonseca',
+  number: '1080',
+  office: 'Deputado Federal',
+  state: 'Rio de Janeiro',
+  party: 'Republicanos',
+  partyNumber: '10',
+  electionDate: '2026-10-04',
+  electionDateLabel: '4 de outubro',
+} as const;
 
 export const site = {
-  name: 'Marcelo Crivella',
-  title: 'Marcelo Crivella para Senador - 100',
-  description: 'Marcelo Crivella. Compromisso com o Rio, respeito às famílias e trabalho pelo Brasil.',
+  name: 'André Português 1080',
+  title: 'André Português 1080 — Deputado Federal pelo Rio de Janeiro',
+  description:
+    'Quem transformou Miguel Pereira, agora vai fazer por sua cidade. André Português, 1080, Deputado Federal pelo Rio de Janeiro. Dia 4 de outubro.',
   locale: 'pt_BR',
-  themeColor: '#1443CB',
-  favicon: `${REMOTE_MEDIA_BASE}uploads/bf973d6cb04c28f658418a9f98f63518.jpg`,
-  logo: '/uploads/d54e8d1cd1a95491f5b52873b29c4d3d.webp',
-  footerLogo: '/uploads/779ebce6e99b6cd00a1c83f51c0c004a.webp',
+  themeColor: '#205DC7',
+  favicon: '/favicon.png',
+  ogImage: '/uploads/banner-andre-portugues-1080.webp',
   partyLogo: '/assets/logo-partido.webp',
 } as const;
 
 export const legal = {
-  cnpj: '68.557.163/0001-03',
-  coalition: 'CORAGEM PARA MUDAR - REPUBLICANOS / DEMOCRATA',
-  party: 'Partido Republicanos 10. Trabalho, diálogo e compromisso com as famílias.',
-  about: 'Marcelo Crivella para o Senado pelo Rio de Janeiro. Trabalho, diálogo e compromisso com as famílias.',
-  slogan: 'MARCELO CRIVELLA • PARA SENADOR É 100',
+  cnpj: '68.992.482/0001-47',
+  coalition: 'CORAGEM PARA MUDAR — REPUBLICANOS / DEMOCRATA',
+  party: 'Republicanos 10. Diálogo, presença e resultados.',
+  about: 'André Português, Deputado Federal pelo Rio de Janeiro. Diálogo, presença e resultados.',
+  slogan: 'ANDRÉ PORTUGUÊS • DEPUTADO FEDERAL 1080',
+  notice: 'PROPAGANDA ELEITORAL — ANDRÉ PORTUGUÊS DEPUTADO FEDERAL',
   year: 2026,
 } as const;
 
-export const hero = {
-  eyebrow: 'O SENADOR DA GENTE',
-  headline: 'LÁ EM CASA TODO MUNDO VOTA!',
-  subheadline: 'Experiência, diálogo e presença para construir soluções que melhoram a vida das famílias CRISTÃS 100.',
-  primaryCta: { label: 'O QUE DEFENDEMOS', href: '#propostas' },
-  secondaryCta: { label: 'Mostre seu apoio nas redes', href: 'https://marcelocrivella.org/fotocampanha/' },
-  photo: '/uploads/01ff972e7e17812a0e13b86c73446cd0.webp',
-  photoAlt: 'Marcelo Crivella sorrindo, usando terno azul claro',
-  background: `${REMOTE_MEDIA_BASE}uploads/5cc70280955ba36162c442e435b5a9bf.jpg`,
-} as const;
+export const hashtags = ['#OFEDERALDORIO', '#MEUDEPUTADOÉPORTUGUÊS', '#MEUDEPUTADOÉFEDERAL'] as const;
 
-export type SocialNetwork = 'facebook' | 'instagram' | 'youtube' | 'tiktok' | 'x';
+export type SocialNetwork = 'instagram' | 'facebook' | 'threads';
 
 export const social: { network: SocialNetwork; label: string; url: string; icon: string }[] = [
-  { network: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/marcelocrivella', icon: '/assets/social-facebook.webp' },
-  { network: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/marcelocrivella/', icon: '/assets/social-instagram.webp' },
-  { network: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/user/marcelocrivella', icon: '/assets/social-youtube.webp' },
-  { network: 'tiktok', label: 'TikTok', url: 'https://www.tiktok.com/@marcelocrivella', icon: '/assets/social-tiktok.webp' },
-  { network: 'x', label: 'X', url: 'https://x.com/MCrivella', icon: '/assets/social-x.svg' },
+  { network: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/andreportuguesoficial/', icon: '/assets/social-instagram.webp' },
+  { network: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/andreportuguesoficial/', icon: '/assets/social-facebook.webp' },
+  { network: 'threads', label: 'Threads', url: 'https://www.threads.com/@andreportuguesoficial', icon: '/assets/social-threads.svg' },
+  // CONFIRMAR: YouTube e TikTok não foram localizados.
 ];
 
 export const instagramProfile = {
-  handle: '@marcelocrivella',
-  url: 'https://www.instagram.com/marcelocrivella/',
+  handle: '@andreportuguesoficial',
+  url: 'https://www.instagram.com/andreportuguesoficial/',
 } as const;
 
 export const whatsapp = {
-  communityUrl: 'https://whatsapp.com/channel/0029Vb8NJI817Emwgof71L2K',
-  tooltip: 'Entre agora na comunidade do Crivella',
+  /** CONFIRMAR: link da comunidade oficial. Enquanto vazio, os botões levam ao Instagram. */
+  communityUrl: '',
+  tooltip: 'Entre agora na comunidade do André Português',
   icon: '/assets/social-whatsapp.webp',
   communityIcon: '/assets/whatsapp-community.webp',
 } as const;
 
-export const donate = { label: 'Quero Doar', href: '#participe' } as const;
-
 export const navigation = [
   { label: 'INÍCIO', href: '#inicio' },
   { label: 'PROPOSTAS', href: '#propostas' },
+  { label: 'O CASE', href: '#case' },
   { label: 'NOTÍCIAS', href: '#noticias' },
   { label: 'AGENDA', href: '#agenda' },
   { label: 'VÍDEOS', href: '#videos' },
   { label: 'MATERIAIS', href: '#materiais' },
-  { label: 'REDES', href: '#conecte' },
   { label: 'PARTICIPE', href: '#participe' },
 ] as const;
+
+/** Botão destacado do menu. */
+export const navHighlight = { label: 'Vote 1080', href: '#chapa' } as const;
 
 export const cookieConsent = {
   enabled: true,
   title: 'Aviso de cookies e LGPD',
   message:
-    'Usamos cookies essenciais e armazenamento local para preferências do site. Com sua autorização, também usamos Google Analytics para medir audiência e melhorar a experiência.',
-  analyticsId: 'G-CY3N5EM2WJ',
+    'Usamos cookies essenciais e armazenamento local para preferências do site. Com sua autorização, também usamos ferramentas de análise para medir audiência e melhorar a experiência.',
+  /** CONFIRMAR: ID do Google Analytics da campanha (ex.: G-XXXXXXX). Vazio = nenhum analytics é carregado. */
+  analyticsId: '',
 } as const;
 
 export const entryPopup = {
   enabled: true,
-  image: '/uploads/776a8231c971bbdf34da80008d5074bd.webp',
-  cta: { label: 'Entre agora', href: 'https://www.marcelocrivella.org/fotocampanha' },
+  image: '/uploads/candidatura-deferida.webp',
+  imageAlt: 'Candidatura deferida: André Português é ficha limpa',
+  cta: { label: 'Conheça as propostas', href: '#propostas' },
 } as const;
 
 export const newsletter = {
@@ -94,3 +99,8 @@ export const newsletter = {
    */
   endpoint: import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT ?? '',
 } as const;
+
+/** Link usado nos convites para participar: a comunidade do WhatsApp ou, sem ela, o Instagram oficial. */
+export const communityLink = whatsapp.communityUrl
+  ? { href: whatsapp.communityUrl, label: 'ENTRAR NA COMUNIDADE', channel: 'whatsapp' as const }
+  : { href: instagramProfile.url, label: 'SIGA NO INSTAGRAM', channel: 'instagram' as const };

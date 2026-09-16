@@ -1,5 +1,6 @@
 ---
 import { ArrowLeft, ArrowRight, MapPin } from '@lucide/astro';
+import { agendaCopy } from '../../config/copy';
 import { agenda } from '../../data/agenda';
 import CloseButton from '../ui/CloseButton.astro';
 import Modal from '../ui/Modal.astro';
@@ -11,13 +12,10 @@ const highlighted = agenda.slice(0, 2);
 <section id="agenda" class="bg-white py-20 md:py-24">
   <div class="mx-auto max-w-7xl px-6 md:px-8">
     <div class="reveal mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-      <SectionHeading eyebrow="AGENDA OFICIAL" title="Crivella perto de você">
-        <p class="mt-3 max-w-2xl text-ink">
-          Acompanhe os próximos encontros, ouça as demandas de cada região Fluminense e participe das conversas que ajudam a transformar o nosso
-          estado.
-        </p>
+      <SectionHeading eyebrow={agendaCopy.kicker} title={agendaCopy.title}>
+        <p class="mt-3 max-w-2xl text-ink">{agendaCopy.subtitle}</p>
       </SectionHeading>
-      <button type="button" data-agenda-list-open class="btn-green inline-flex shrink-0 items-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold">
+      <button type="button" data-agenda-list-open class="btn-navy inline-flex shrink-0 items-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold">
         Ver agenda completa <ArrowRight size={18} stroke-width={2.5} />
       </button>
     </div>
@@ -30,7 +28,7 @@ const highlighted = agenda.slice(0, 2);
               <span
                 class:list={[
                   'inline-flex rounded px-2 py-1 text-xs font-extrabold uppercase',
-                  index % 2 === 0 ? 'bg-brand-green text-white' : 'bg-brand-yellow text-brand-blue',
+                  index % 2 === 0 ? 'bg-brand-navy text-white' : 'bg-brand-yellow text-brand-blue',
                 ]}
               >
                 {event.type}
@@ -41,15 +39,15 @@ const highlighted = agenda.slice(0, 2);
               <h3 class="mt-2 text-2xl font-extrabold leading-tight">{event.title}</h3>
             </div>
             <div class="p-6">
-              <p class="mb-2 text-xs font-extrabold uppercase tracking-wider text-brand-green">Local / endereço</p>
+              <p class="mb-2 text-xs font-extrabold uppercase tracking-wider text-brand-navy">Local / endereço</p>
               <p class="mb-5 flex items-start gap-2 text-sm text-ink">
-                <MapPin class="shrink-0 text-brand-green" size={16} stroke-width={2.5} />
+                <MapPin class="shrink-0 text-brand-navy" size={16} stroke-width={2.5} />
                 {event.location}
               </p>
               <p class="mb-6 text-sm leading-relaxed text-ink">{event.description}</p>
               <button
                 type="button"
-                class="btn-green inline-flex w-full items-center justify-center rounded-lg py-3 text-sm font-extrabold"
+                class="btn-navy inline-flex w-full items-center justify-center rounded-lg py-3 text-sm font-extrabold"
                 data-agenda-id={event.id}
               >
                 Ver detalhes
@@ -65,7 +63,7 @@ const highlighted = agenda.slice(0, 2);
 <Modal id="agenda-details-modal" size="xl" closeLabel="Fechar detalhes da agenda">
   <div slot="header" class="flex items-start justify-between gap-4 border-b border-surface pb-5">
     <div class="min-w-0">
-      <span data-field="type" class="inline-flex rounded bg-brand-green px-3 py-1 text-xs font-extrabold uppercase text-white"></span>
+      <span data-field="type" class="inline-flex rounded bg-brand-navy px-3 py-1 text-xs font-extrabold uppercase text-white"></span>
       <h2 id="agenda-details-modal-title" data-field="title" class="mt-4 break-words text-2xl font-extrabold uppercase leading-tight text-brand-blue">
       </h2>
     </div>
@@ -91,7 +89,7 @@ const highlighted = agenda.slice(0, 2);
   </div>
 </Modal>
 
-<Modal id="agenda-list-modal" size="lg" eyebrow="AGENDA OFICIAL" title="Agenda completa" closeLabel="Fechar agenda completa">
+<Modal id="agenda-list-modal" size="lg" eyebrow={agendaCopy.kicker} title="Agenda completa" closeLabel="Fechar agenda completa">
   <div data-list-items class="mt-5 grid gap-3"></div>
   <div class="modal-pager mt-6 flex items-center justify-between gap-4 border-t border-surface pt-5">
     <span data-list-label class="text-sm text-ink"></span>
@@ -103,7 +101,8 @@ const highlighted = agenda.slice(0, 2);
 </Modal>
 
 <script>
-  import { agenda } from '../../data/agenda';
+  import { agendaCopy } from '../../config/copy';
+import { agenda } from '../../data/agenda';
   import { createElement, paginate } from '../../lib/content';
   import { getModal, openModal } from '../../lib/modal';
   import type { AgendaEvent } from '../../lib/types';
@@ -152,7 +151,7 @@ const highlighted = agenda.slice(0, 2);
         item.type = 'button';
         const copy = createElement('span', 'min-w-0 flex-1');
         copy.append(
-          createElement('small', 'block text-xs font-extrabold uppercase tracking-wider text-brand-green', fields.type),
+          createElement('small', 'block text-xs font-extrabold uppercase tracking-wider text-brand-navy', fields.type),
           createElement('strong', 'mt-1 block text-base leading-snug text-brand-blue', fields.title),
           createElement('span', 'mt-2 block text-sm text-ink', `${fields.date} • ${fields.time} • ${fields.location}`),
           createElement('span', 'mt-1 block text-sm leading-relaxed text-ink', event.description),

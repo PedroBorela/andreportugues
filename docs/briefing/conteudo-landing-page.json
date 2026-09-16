@@ -1,0 +1,217 @@
+{
+  "_nota": "Copy deck pronto para a landing page do André Português 1080. Estrutura espelha marcelocrivella.org/campanha2026. Textos marcados com [CONFIRMAR] dependem de validação do comitê.",
+  "meta": {
+    "title": "André Português 1080 — Deputado Federal pelo Rio de Janeiro",
+    "description": "Quem transformou Miguel Pereira, agora vai fazer por sua cidade. André Português, 1080, Deputado Federal pelo Rio de Janeiro. Dia 4 de outubro.",
+    "lang": "pt-BR",
+    "og_image": "imagens/09_08set_meudeputado-e-portugues.jpg"
+  },
+  "tokens": {
+    "azul_primario": "#205DC7",
+    "azul_marinho": "#001B4A",
+    "amarelo": "#FBCC0D",
+    "branco": "#FFFFFF",
+    "cinza_fundo": "#F3F4F8",
+    "fonte_titulo": "Anton / Archivo Black / Barlow Condensed (caixa-alta, pesada)",
+    "fonte_corpo": "Inter / Barlow (letter-spacing largo em kickers)"
+  },
+  "nav": [
+    { "label": "INÍCIO", "href": "#inicio" },
+    { "label": "PROPOSTAS", "href": "#propostas" },
+    { "label": "O CASE", "href": "#case" },
+    { "label": "NOTÍCIAS", "href": "#noticias" },
+    { "label": "AGENDA", "href": "#agenda" },
+    { "label": "VÍDEOS", "href": "#videos" },
+    { "label": "MATERIAIS", "href": "#materiais" },
+    { "label": "PARTICIPE", "href": "#participe" }
+  ],
+  "hero": {
+    "kicker": "#OFEDERALDORIO",
+    "titulo": "QUEM TRANSFORMOU MIGUEL PEREIRA, AGORA VAI FAZER POR SUA CIDADE",
+    "subtitulo": "Diálogo, presença e resultados. Um mandato à disposição das 92 cidades do Rio de Janeiro.",
+    "numero": "1080",
+    "cargo": "DEPUTADO FEDERAL",
+    "data_eleicao": "2026-10-04",
+    "contador_label": "Faltam {X} dias para o dia 4 de outubro",
+    "cta_primario": { "label": "CONHEÇA AS PROPOSTAS →", "href": "#propostas" },
+    "cta_secundario": { "label": "ENTRE NO GRUPO OFICIAL", "href": "[CONFIRMAR: link da comunidade de WhatsApp]" },
+    "imagem": "imagens/09_08set_meudeputado-e-portugues.jpg"
+  },
+  "propostas": {
+    "kicker": "PRIORIDADES",
+    "titulo": "As nossas bandeiras",
+    "subtitulo": "Compromissos concretos para as 92 cidades do Rio de Janeiro.",
+    "cards": [
+      {
+        "tag": "Municípios",
+        "titulo": "Emendas e recursos para as 92 cidades",
+        "texto": "Um mandato à disposição dos municípios: ajudar na elaboração de projetos e na busca por recursos e emendas que gerem oportunidades e melhorem a qualidade de vida da população.",
+        "fonte": "Citação literal do candidato, post de 15/09/2026"
+      },
+      {
+        "tag": "Economia e Turismo",
+        "titulo": "Turismo que gera emprego e renda",
+        "texto": "Levar para outras cidades o método que transformou Miguel Pereira no destino mais visitado do estado: planejamento, inovação e parcerias público-privadas que atraem investimento e criam vagas.",
+        "fonte": "Palestras em Rio Bonito e Rio Claro"
+      },
+      {
+        "tag": "Mulher",
+        "titulo": "Mais proteção, mais acolhimento",
+        "texto": "Combater a violência contra a mulher com políticas públicas, leis mais rigorosas e equipamentos de acolhimento nos municípios.",
+        "fonte": "Peça própria de 13/09/2026"
+      },
+      {
+        "tag": "Famílias atípicas",
+        "titulo": "Cuidar de quem mais precisa",
+        "texto": "Projetos e recursos para que os municípios contem com equipamentos públicos de atendimento às famílias atípicas — como foi feito em Miguel Pereira.",
+        "fonte": "Peça própria de 13/09/2026"
+      },
+      {
+        "tag": "Segurança",
+        "titulo": "Segurança para a família fluminense",
+        "texto": "Apoio federal e recursos para que o estado e os municípios enfrentem a violência que virou rotina na vida do cidadão.",
+        "fonte": "[CONFIRMAR proposta específica com o comitê]"
+      },
+      {
+        "tag": "Saúde e Educação",
+        "titulo": "Serviço público que funciona",
+        "texto": "Recursos para recuperar a rede de saúde e a infraestrutura escolar dos municípios, com gestão responsável de cada real do contribuinte.",
+        "fonte": "[CONFIRMAR proposta específica com o comitê]"
+      }
+    ]
+  },
+  "case": {
+    "kicker": "RESULTADOS COMPROVADOS",
+    "titulo": "O case Miguel Pereira",
+    "subtitulo": "Oito anos de gestão, um dos menores orçamentos do estado e a cidade virou o destino nº 1 do Rio.",
+    "numeros": [
+      { "valor": "83,22%", "label": "dos votos na reeleição de 2020" },
+      { "valor": "8 anos", "label": "de gestão à frente de Miguel Pereira" },
+      { "valor": "Nº 1", "label": "destino mais visitado do estado do Rio" },
+      { "valor": "R$ 160 mi", "label": "em investimento hoteleiro privado atraído" },
+      { "valor": "+400", "label": "empregos gerados só pela fábrica de chocolate" },
+      { "valor": "2.380", "label": "ipês-amarelos na Serra Mais Bonita do Brasil" }
+    ],
+    "destaques": [
+      "Terra dos Dinossauros — parque temático com mais de 40 réplicas e a maior montanha-russa tipo trem da América Latina",
+      "Maria Fumaça — trem turístico reativado",
+      "Rua Coberta — 10 restaurantes, dois estabelecimentos panorâmicos e duas salas de cinema",
+      "27 projetos culturais contemplados pela Lei Paulo Gustavo"
+    ],
+    "citacao": "Não vim prometer milagre. Quem promete milagre na política mente. Quem governa com pouco aprende a fazer cada real render, a respeitar o dinheiro do contribuinte."
+  },
+  "biografia": {
+    "kicker": "QUEM É",
+    "titulo": "André Português",
+    "texto": "Cristão, empresário e gestor público, André Português foi duas vezes o prefeito mais votado da história de Miguel Pereira — reeleito em 2020 com 83,22% dos votos. Em oito anos de gestão, transformou uma cidade com um dos menores orçamentos do estado no destino turístico mais visitado do Rio de Janeiro. Agora, é candidato a Deputado Federal pelo Republicanos, com o número 1080, para levar essa experiência às 92 cidades fluminenses.",
+    "campos": {
+      "idade": "51 anos",
+      "naturalidade": "Rio de Janeiro",
+      "estado_civil": "[CONFIRMAR — bio do Instagram diz 'Casado'; registro do TSE consta 'Divorciado']",
+      "formacao": "Superior completo",
+      "ocupacao": "Empresário e gestor público"
+    }
+  },
+  "agenda": {
+    "kicker": "AGENDA OFICIAL",
+    "titulo": "André perto de você",
+    "subtitulo": "Acompanhe os encontros, ouça as demandas da sua região e participe das conversas que transformam o nosso estado.",
+    "exemplo_evento": {
+      "data": "2026-09-16",
+      "hora": "18:00",
+      "titulo": "Encontro em Mangaratiba",
+      "local": "Rua Manaus, 86 — Praia do Saco (Galpão do Loredo)",
+      "descricao": "Ao lado do prefeito Luiz Cláudio Ribeiro e do candidato a deputado estadual Fred Pacheco."
+    }
+  },
+  "noticias": [
+    {
+      "data": "2026-09-16",
+      "editoria": "CAMPANHA",
+      "titulo": "Justiça Eleitoral defere a candidatura de André Português a Deputado Federal",
+      "resumo": "Registro deferido pelo TRE-RJ. 'Agora é seguir em frente com fé, coragem e muito trabalho.'",
+      "imagem": "imagens/01_16set_candidatura-deferida.jpg"
+    },
+    {
+      "data": "2026-09-15",
+      "editoria": "APOIOS",
+      "titulo": "Crivella declara apoio a André Português em encontro com pastores e lideranças",
+      "resumo": "Candidato ao Senado reforça o projeto de desenvolvimento para as 92 cidades do Rio.",
+      "imagem": "imagens/03_15set_reuniao-pastores-crivella.jpg"
+    },
+    {
+      "data": "2026-09-14",
+      "editoria": "RUAS",
+      "titulo": "Campanha toma as ruas com adesivaço em Governador Portela",
+      "resumo": "'Nossa força também está nas ruas.' Diálogo, presença e resultados.",
+      "imagem": "imagens/05_14set_adesivaco-gov-portela.jpg"
+    },
+    {
+      "data": "2026-09-12",
+      "editoria": "MOBILIZAÇÃO",
+      "titulo": "Comitê de Vassouras é inaugurado",
+      "resumo": "Materiais de campanha já disponíveis na cidade.",
+      "imagem": "imagens/07_12set_comite-vassouras.jpg"
+    }
+  ],
+  "videos": [
+    { "titulo": "Apoio de Marcelo Crivella e encontro com pastores", "data": "2026-09-15", "url": "https://www.instagram.com/andreportuguesoficial/reel/DdUzzSBNMun/" },
+    { "titulo": "Convite: encontro em Mangaratiba", "data": "2026-09-15", "url": "https://www.instagram.com/andreportuguesoficial/reel/DdT_zgpNxfL/" },
+    { "titulo": "Adesivaço em Governador Portela", "data": "2026-09-14", "url": "https://www.instagram.com/andreportuguesoficial/reel/DdSQMOptyNY/" },
+    { "titulo": "Proteção à mulher e às famílias atípicas", "data": "2026-09-13", "url": "https://www.instagram.com/andreportuguesoficial/reel/DdPOBhrta-4/" },
+    { "titulo": "Inauguração do comitê em Vassouras", "data": "2026-09-12", "url": "https://www.instagram.com/andreportuguesoficial/reel/DdMhqbHNaXu/" }
+  ],
+  "materiais": {
+    "kicker": "CENTRAL DE MATERIAIS",
+    "titulo": "Baixe e compartilhe",
+    "subtitulo": "Escolha o material para divulgar a campanha na sua cidade, nas redes e nos grupos de WhatsApp.",
+    "itens": [
+      { "n": "01", "titulo": "Kit para impressão", "texto": "Artes prontas para imprimir e compartilhar.", "arquivo": "[COMITÊ]" },
+      { "n": "02", "titulo": "Jingle de campanha", "texto": "A mensagem da campanha para levar a todo lugar.", "arquivo": "[COMITÊ]" },
+      { "n": "03", "titulo": "Logomarca", "texto": "Identidade visual oficial em alta resolução.", "arquivo": "[COMITÊ]" },
+      { "n": "04", "titulo": "Fotos oficiais", "texto": "Banco de imagens para imprensa e apoiadores.", "arquivo": "[COMITÊ]" },
+      { "n": "05", "titulo": "Figurinhas oficiais", "texto": "Pacote de stickers para WhatsApp.", "arquivo": "[COMITÊ]" }
+    ]
+  },
+  "redes": {
+    "instagram": "https://www.instagram.com/andreportuguesoficial/",
+    "facebook": "https://www.facebook.com/andreportuguesoficial/",
+    "threads": "https://www.threads.com/@andreportuguesoficial",
+    "youtube": "[CONFIRMAR]",
+    "tiktok": "[CONFIRMAR]",
+    "whatsapp_comunidade": "[CONFIRMAR]"
+  },
+  "chapa": {
+    "kicker": "NOSSA CHAPA",
+    "titulo": "Dia 4 de outubro, vote:",
+    "itens": [
+      { "cargo": "Presidente", "nome": "Flávio Bolsonaro", "numero": "22" },
+      { "cargo": "Senador", "nome": "Marcelo Crivella", "numero": "100" },
+      { "cargo": "Deputado Federal", "nome": "André Português", "numero": "1080", "destaque": true }
+    ],
+    "imagem": "imagens/08_08set_chapa-flavio-crivella.jpg"
+  },
+  "participe": {
+    "kicker": "MOBILIZAÇÃO OFICIAL",
+    "titulo": "Entre no WhatsApp da campanha",
+    "texto": "Receba agenda, encontros e propostas direto no seu celular. Nossa força também está nas ruas — e no seu grupo.",
+    "cta": "ENTRAR NA COMUNIDADE"
+  },
+  "newsletter": {
+    "kicker": "EM PRIMEIRA MÃO",
+    "titulo": "Receba a agenda e as novidades da campanha.",
+    "placeholder": "Seu melhor e-mail",
+    "consentimento": "Autorizo o recebimento de comunicações oficiais da campanha.",
+    "cta": "QUERO RECEBER"
+  },
+  "rodape": {
+    "sobre": "André Português, Deputado Federal pelo Rio de Janeiro. Diálogo, presença e resultados.",
+    "assinatura": "ANDRÉ PORTUGUÊS • DEPUTADO FEDERAL 1080",
+    "cnpj": "[CONFIRMAR: informado como 68.992482/0001-47 — máscara incompleta, verificar no DivulgaCandContas]",
+    "coligacao": "CORAGEM PARA MUDAR — REPUBLICANOS / DEMOCRATA",
+    "partido": "Republicanos 10",
+    "aviso_legal": "PROPAGANDA ELEITORAL — ANDRÉ PORTUGUÊS DEPUTADO FEDERAL",
+    "copyright": "© 2026 Todos os direitos reservados",
+    "lgpd": "Aviso de cookies e LGPD com opção de aceitar/rejeitar analytics."
+  }
+}
